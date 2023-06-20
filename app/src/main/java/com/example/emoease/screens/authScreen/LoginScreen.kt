@@ -1,7 +1,6 @@
 package com.example.emoease.screens.authScreen
 
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,21 +27,17 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.size.Scale
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.emoease.R
+import com.example.emoease.screens.CustomSnackBar
 import com.example.emoease.screens.LogoApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
@@ -52,7 +46,7 @@ import timber.log.Timber
 
 @Preview
 @Composable
-fun LoginScreen() {
+fun LoginScreen(loginScreenViewModel: LoginScreenViewModel= hiltViewModel()) {
     val showLoginForm = rememberSaveable {
         mutableStateOf(true)
     }
@@ -80,10 +74,22 @@ fun LoginScreen() {
                 loading = isLoading.value, isCreateAccount = false
             ) { email, pwd ->
                 //TODO login
+                loginScreenViewModel.signInWithEmailAndPassword(email=email, password = pwd, home = {
+                   //navigate
+                }){
+                    errorText.value=it
+                    showSnackBar.value=true
+                }
             }
             else {
                 UserForm(loading = isLoading.value, isCreateAccount = true) { email, pwd ->
                     //TODO create account
+                    loginScreenViewModel.createUserWithEmailAndPassword(email=email, password = pwd, home = {
+                       //navigate
+                    }){
+                        errorText.value=it
+                        showSnackBar.value=true
+                    }
 
                 }
             }
@@ -121,7 +127,7 @@ fun LoginScreen() {
                     color = MaterialTheme.colors.secondaryVariant)
             }
         }
-//        CustomSnackBar(text = errorText.value,showSnackBar=showSnackBar)
+        CustomSnackBar(text = errorText.value,showSnackBar=showSnackBar)
     }
 }
 

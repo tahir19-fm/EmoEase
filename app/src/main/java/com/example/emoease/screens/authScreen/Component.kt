@@ -4,7 +4,9 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
@@ -214,14 +216,19 @@ fun GoogleSignInButton(
         .requestIdToken(BuildConfig.WEB_ID)
         .requestEmail()
         .build()
-    Box(contentAlignment = Alignment.Center) {
-
-        Image(
-            painter = painterResource(id = R.drawable._google),
-            contentDescription = null,
-            modifier = Modifier.clickable {
-                val signInIntent = GoogleSignIn.getClient(context, gso).signInIntent
-                launcher.launch(signInIntent)
-            })
+    Box(contentAlignment = Alignment.Center,modifier = Modifier.clickable {
+        val signInIntent = GoogleSignIn.getClient(context, gso).signInIntent
+        launcher.launch(signInIntent)
+    }) {
+        Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+            Image(
+                painter = painterResource(id = R.drawable._google),
+                contentDescription = null,
+                )
+            Text(text = stringResource(id = R.string.sign_in_with_google), style = MaterialTheme.typography.caption)
+        }
     }
 }
+
+//@Composable
+//fun
