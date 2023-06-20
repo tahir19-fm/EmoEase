@@ -44,6 +44,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.size.Scale
 import com.example.emoease.R
+import com.example.emoease.screens.LogoApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import timber.log.Timber
@@ -76,8 +77,7 @@ fun LoginScreen() {
 
             //if to show login screen else sign up
             if (showLoginForm.value) UserForm(
-                loading = isLoading.value,
-                isCreateAccount = false
+                loading = isLoading.value, isCreateAccount = false
             ) { email, pwd ->
                 //TODO login
             }
@@ -90,15 +90,15 @@ fun LoginScreen() {
             Spacer(modifier = Modifier.height(15.dp))
             GoogleSignInButton(onSignInSuccess = {
                 val credential = GoogleAuthProvider.getCredential(it.idToken, null)
-                FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Timber.tag("googlesign").d("Signin complete")
+                FirebaseAuth.getInstance().signInWithCredential(credential)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Timber.tag("googlesign").d("Signin complete")
+                        }
                     }
-                }
 
-            },
-            onSignInFailure = {
-            Timber.tag("googlesign").e("error")
+            }, onSignInFailure = {
+                Timber.tag("googlesign").e("error")
             })
             Spacer(modifier = Modifier.height(15.dp))
             Row(
@@ -111,14 +111,12 @@ fun LoginScreen() {
                     text = "New User?",
 //                    style = ReaderAppTextStyle.subText
                 )
-                Text(text,
-                    modifier = Modifier
-                        .clickable {
-                            showLoginForm.value = !showLoginForm.value
+                Text(text, modifier = Modifier
+                    .clickable {
+                        showLoginForm.value = !showLoginForm.value
 
-                        }
-                        .padding(start = 5.dp),
-                    fontWeight = FontWeight.Bold,
+                    }
+                    .padding(start = 5.dp), fontWeight = FontWeight.Bold,
 //                    style = ReaderAppTextStyle.subText,
                     color = MaterialTheme.colors.secondaryVariant)
             }
@@ -167,8 +165,7 @@ fun UserForm(
         EmailInput(emailState = email, enabled = !loading, onAction = KeyboardActions {
             passwordFocusRequest.requestFocus()
         })
-        PasswordInput(
-            modifier = Modifier.focusRequester(passwordFocusRequest),
+        PasswordInput(modifier = Modifier.focusRequester(passwordFocusRequest),
             passwordState = password,
             labelId = "Password",
             enabled = !loading,
@@ -190,14 +187,21 @@ fun UserForm(
 }
 
 @Composable
-fun HeaderAuth(){
-    Card(modifier = Modifier
-        .height(200.dp)
-        .fillMaxWidth(),
-    shape = RoundedCornerShape(bottomStart = 50.dp, bottomEnd = 50.dp),
-        backgroundColor = MaterialTheme.colors.surface
+fun HeaderAuth() {
+    Card(
+        modifier = Modifier
+            .height(200.dp)
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(bottomStart = 50.dp, bottomEnd = 50.dp),
+        backgroundColor = MaterialTheme.colors.surface,
     ) {
-
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp), contentAlignment = Alignment.Center
+        ) {
+            LogoApp()
+        }
 
     }
 }
