@@ -94,6 +94,8 @@ fun LoginScreen(loginScreenViewModel: LoginScreenViewModel= hiltViewModel()) {
                 }
             }
             Spacer(modifier = Modifier.height(15.dp))
+            CustomDivider()
+            Spacer(modifier = Modifier.height(15.dp))
             GoogleSignInButton(onSignInSuccess = {
                 val credential = GoogleAuthProvider.getCredential(it.idToken, null)
                 FirebaseAuth.getInstance().signInWithCredential(credential)
