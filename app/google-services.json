@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "620046746828",
+    "project_id": "emoease-4af72",
+    "storage_bucket": "emoease-4af72.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:620046746828:android:e1da183da695490f106e69",
+        "android_client_info": {
+          "package_name": "com.example.emoease"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "620046746828-ck90nnc6cuicjhj4dgef5jd4fb8ma21v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCl9uhvAf6UH8N2WryVaI7Hhoq0oargPXc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "620046746828-ck90nnc6cuicjhj4dgef5jd4fb8ma21v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

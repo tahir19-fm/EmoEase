@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">EmoEase</string>
+    <string name="enter_email">Enter your e-mail</string>
+    <string name="email_address">Email address</string>
+    <string name="create_acct"> Please enter a valid email and password that is at least 6 characters</string>
+    <string name="sign_in_with_google">sign in with google</string>
+
 </resources>
