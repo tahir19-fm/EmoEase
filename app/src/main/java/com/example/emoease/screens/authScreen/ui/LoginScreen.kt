@@ -1,4 +1,4 @@
-package com.example.emoease.screens.authScreen
+package com.example.emoease.screens.authScreen.ui
 
 
 import androidx.compose.foundation.clickable
@@ -39,6 +39,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.emoease.R
 import com.example.emoease.screens.CustomSnackBar
 import com.example.emoease.screens.LogoApp
+import com.example.emoease.screens.authScreen.util.LoginScreenViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import timber.log.Timber
@@ -46,7 +47,7 @@ import timber.log.Timber
 
 @Preview
 @Composable
-fun LoginScreen(loginScreenViewModel: LoginScreenViewModel= hiltViewModel()) {
+fun LoginScreen(loginScreenViewModel: LoginScreenViewModel = hiltViewModel()) {
     val showLoginForm = rememberSaveable {
         mutableStateOf(true)
     }

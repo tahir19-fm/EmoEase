@@ -13,7 +13,6 @@ fun ReaderNavigation() {
     NavHost(navController = navController,
         startDestination = EmoScreens.SplashScreen.name ){
 
-
     }
 
 }
