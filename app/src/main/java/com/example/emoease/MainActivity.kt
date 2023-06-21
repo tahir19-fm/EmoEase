@@ -22,6 +22,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                    MoodTrackingScreen(onSaveMood = {})
+                 //   LoginScreen()
                 }
             }
         }

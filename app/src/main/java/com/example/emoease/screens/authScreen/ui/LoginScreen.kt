@@ -60,7 +60,7 @@ fun LoginScreen(loginScreenViewModel: LoginScreenViewModel = hiltViewModel()) {
     val showSnackBar = remember {
         mutableStateOf(false)
     }
-    Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.secondary) {
+    Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -202,7 +202,7 @@ fun HeaderAuth() {
             .height(200.dp)
             .fillMaxWidth(),
         shape = RoundedCornerShape(bottomStart = 50.dp, bottomEnd = 50.dp),
-        backgroundColor = MaterialTheme.colors.surface,
+        backgroundColor = MaterialTheme.colors.primary,
     ) {
         Box(
             modifier = Modifier

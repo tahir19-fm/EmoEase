@@ -6,4 +6,4 @@ data class MoodEntry(
     val tags: List<String>,
     val timestamp: Long
 )
-data class MoodItem(val position: Int, val drawableRes: Int)
+data class MoodItem(val mood: String, val drawableRes: Int)

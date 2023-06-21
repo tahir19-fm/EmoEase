@@ -123,7 +123,7 @@ fun SubmitButton(
             .fillMaxWidth(),
         enabled = !loading && validInputs,
         shape = CircleShape,
-        colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.surface)
+        colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary)
     ) {
 //        if (loading) DotsPulsing()
 //        else

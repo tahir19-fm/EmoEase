@@ -40,7 +40,7 @@ import kotlinx.coroutines.delay
 fun LogoApp(modifier: Modifier = Modifier, fontSize: TextUnit = 80.sp) {
     Text(
         text = stringResource(id = R.string.app_name), style = TextStyle(
-            color = MaterialTheme.colors.secondary,
+            color = MaterialTheme.colors.onSecondary,
             fontSize = fontSize,
             fontWeight = FontWeight.Normal,
             fontFamily = FontFamEmo.logo
