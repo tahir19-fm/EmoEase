@@ -135,6 +135,12 @@ dependencies {
     //google signin
     implementation 'com.google.android.gms:play-services-auth:20.5.0'
 
+    //room
+    implementation "androidx.room:room-runtime:2.4.0-alpha03"
+    annotationProcessor "androidx.room:room-compiler:2.4.0-alpha03"
+    kapt 'androidx.room:room-compiler:2.4.0-alpha03'
+    implementation 'androidx.room:room-ktx:2.4.0-alpha03'
+
 
 
 

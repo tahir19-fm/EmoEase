@@ -1,12 +1,6 @@
 package com.example.emoease.screens.moodTrackingScreen.ui
 
 
-import android.content.ClipData.Item
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.painterResource
@@ -17,25 +11,16 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -43,6 +28,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
@@ -58,8 +44,6 @@ import androidx.compose.material.icons.filled.SportsTennis
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -67,22 +51,24 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.emoease.R
+import com.example.emoease.screens.HorizontalSlideAnimation
 import com.example.emoease.screens.moodTrackingScreen.data.MoodEntry
 import com.example.emoease.screens.moodTrackingScreen.data.MoodItem
 import com.example.emoease.screens.moodTrackingScreen.util.listOfActivities
-import com.example.emoease.ui.theme.Purple200
 import com.example.emoease.utils.FontFamEmo
 import kotlinx.coroutines.delay
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 @Composable
-fun MoodTrackingScreen(onSaveMood: (MoodEntry) -> Unit) {
+fun MoodTrackingScreen(onSaveMood: (MoodEntry) -> Unit, padding: PaddingValues) {
     val rating = remember { mutableStateOf(1f) }
     val notes = remember { mutableStateOf("") }
     val tags = remember { mutableStateOf("") }
@@ -90,51 +76,54 @@ fun MoodTrackingScreen(onSaveMood: (MoodEntry) -> Unit) {
     val currMood = remember {
         mutableStateOf(R.drawable.happy)
     }
+    val noteText= remember {
+        mutableStateOf("")
+    }
+    val showAlertBox = remember {
+        mutableStateOf(false)
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(scrollState)
-            .background(Color(0xFFfffaca)),
+            .background(Color(0xFFfffaca))
+            .padding(paddingValues = padding),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         MyMood(currMood = currMood.value)
-        Rating(rating) {
-            currMood.value = it
+        HorizontalSlideAnimation {
+            Rating(rating) {
+                currMood.value = it
+            }
         }
-        //get list through viewmodel
+        //get list through view-model
         ActivityCard(
             title = "Activities", icon = Icons.Default.SportsTennis, itemList = listOfActivities
         )
-        ActivityCard(title = "Social", icon = Icons.Default.Group, itemList = listOfActivities)
+        ActivityCard(title = "Social", icon = Icons.Default.Group, itemList = emptyList())
         ActivityCard(title = "Sleep", icon = Icons.Default.Bed, itemList = listOfActivities)
-        ActivityCard(title = "Symptoms", icon =Icons.Default.Face, itemList = listOfActivities)
-//        Text(text = "Notes:")
-//        TextField(
-//            value = notes.value,
-//            onValueChange = { value -> notes.value = value },
-//            modifier = Modifier.fillMaxWidth()
-//        )
-//
-//        Text(text = "Tags:")
-//        TextField(
-//            value = tags.value,
-//            onValueChange = { value -> tags.value = value },
-//            modifier = Modifier.fillMaxWidth()
-//        )
-//
-//        Button(
-//            onClick = {
-//                val moodEntry = MoodEntry(
-//                    rating = rating.value.toInt(),
-//                    notes = notes.value,
-//                    tags = tags.value.split(",").map { it.trim() },
-//                    timestamp = System.currentTimeMillis()
-//                )
-//                onSaveMood(moodEntry)
-//            }, modifier = Modifier.align(Alignment.End)
-//        ) {
-//            Text(text = "Save")
-//        }
+        ActivityCard(title = "Symptoms", icon = Icons.Default.Face, itemList = listOfActivities)
+        MyNotes(showAlertBox,noteText)
+        NotesWritingScreen(showDialog = showAlertBox.value,
+            onDialogDismiss = { showAlertBox.value = !showAlertBox.value },
+            onSaveNote = { showAlertBox.value = !showAlertBox.value },
+        noteText=noteText)
+        Button(
+            onClick = {
+                showAlertBox.value = !showAlertBox.value
+                val moodEntry = MoodEntry(
+                    rating = rating.value.toInt(),
+                    notes = notes.value,
+                    tags = tags.value.split(",").map { it.trim() },
+                    timestamp = System.currentTimeMillis()
+                )
+                onSaveMood(moodEntry)
+            }, modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp)
+        ) {
+            Text(text = "Save")
+        }
     }
 }
 
@@ -146,14 +135,20 @@ fun MyMood(currMood: Int) {
         delay(500)
         isVisible.value = true
     }
-    Column {
-
+    val currentDate = Calendar.getInstance().time
+    val dateFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
+    val dayFormat=SimpleDateFormat("EEEE",Locale.getDefault())
+    val formattedDay=dayFormat.format(currentDate)
+    val formattedDate = dateFormat.format(currentDate)
+    Column(  modifier = Modifier.height(200.dp)
+        .clip(shape = RoundedCornerShape(bottomStart = 50.dp, bottomEnd = 50.dp))
+        .background(MaterialTheme.colors.primary),
+        horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(text = formattedDay, fontFamily = FontFamEmo.quicksand_bold, fontWeight = FontWeight.Bold, fontSize = 44.sp)
+        Text(text = formattedDate, fontSize = 20.sp)
         Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-                .clip(shape = RoundedCornerShape(bottomStart = 50.dp, bottomEnd = 50.dp))
-                .background(MaterialTheme.colors.primary), contentAlignment = Alignment.Center
+                .fillMaxWidth(), contentAlignment = Alignment.Center
         ) {
             Image(
                 painter = painterResource(id = currMood),
@@ -267,21 +262,51 @@ fun ActivityCard(title: String, icon: ImageVector, itemList: List<String>) {
             Icon(imageVector = icon, contentDescription = null)
         }
         Spacer(modifier = Modifier.height(12.dp))
-        LazyRow(modifier = Modifier.wrapContentSize()) {
-            items(itemList) { name ->
-                ItemCard(name)
-            }
-            item{
-                Text(text = "Change")
+        HorizontalSlideAnimation {
+            LazyRow(
+                modifier = Modifier.wrapContentSize(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (itemList.isEmpty()) {
+                    item {
+                        Card(
+                            shape = RoundedCornerShape(8.dp),
+                            backgroundColor = MaterialTheme.colors.secondary
+                        ) {
+                            Text(
+                                text = "No $title selected",
+                                style = MaterialTheme.typography.caption,
+                                color = MaterialTheme.colors.onSurface,
+                                fontWeight = FontWeight.Normal,
+                                modifier = Modifier.padding(4.dp)
+                            )
+                        }
+
+                    }
+                }
+                items(itemList) { name ->
+                    ItemCard(name)
+                }
+                item {
+                    Text(text = "Change", style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = FontFamEmo.quicksand_bold,
+                        fontSize = 18.sp
+                    ), modifier = Modifier
+                        .padding(start = 8.dp)
+                        .clickable {
+                            //TODO on click change
+                        })
+                }
             }
         }
     }
 }
 
 @Composable
-fun ItemCard(itemName: String) {
+fun ItemCard(itemName: String,modifier: Modifier=Modifier) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .wrapContentSize()
             .padding(horizontal = 4.dp),
         backgroundColor = MaterialTheme.colors.secondary,
@@ -297,9 +322,77 @@ fun ItemCard(itemName: String) {
         Text(
             text = itemName,
             style = TextStyle(fontSize = 18.sp, color = MaterialTheme.colors.onSurface),
-            modifier = Modifier.padding(10.dp)
+            modifier = modifier.padding(10.dp)
         )
     }
 }
+
+@Composable
+fun MyNotes(showAlertBox: MutableState<Boolean>, noteText: MutableState<String>) {
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "My Note",
+            style = TextStyle(fontSize = 24.sp, fontFamily = FontFamEmo.quicksand_bold),
+            modifier = Modifier.padding(8.dp)
+        )
+        ItemCard(itemName = noteText.value.ifEmpty {
+            stringResource(id = R.string.click_to_add_Note)
+        }, modifier = Modifier.fillMaxWidth())
+        Button(onClick = {
+            showAlertBox.value = !showAlertBox.value
+        }) {
+            Text(text = "Edit Note")
+        }
+    }
+}
+
+
+@Composable
+fun NotesWritingScreen(
+    showDialog: Boolean,
+    onDialogDismiss: () -> Unit,
+    onSaveNote: (String) -> Unit,
+    noteText: MutableState<String>
+) {
+    if (showDialog) {
+        AlertDialog(onDismissRequest = { onDialogDismiss() },
+            confirmButton = {
+                Button(onClick = { /* Save the note */ }) {
+                    Text(text = "Save")
+                }
+            }, dismissButton = {
+                Button(onClick = { onDialogDismiss() }) {
+                    Text(text = "Cancel")
+                }
+            }, text = {
+                Column {
+                    Text(
+                        text = "Write a Note",
+                        modifier = Modifier.padding(6.dp),
+                        color = Color.Black
+                    )
+                    TextField(
+                        value = noteText.value,
+                        onValueChange = {noteText.value=it},
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight()
+                            .padding(top = 8.dp),
+                        textStyle = MaterialTheme.typography.body1,
+
+                    )
+                }
+
+            })
+    }
+}
+
 
 

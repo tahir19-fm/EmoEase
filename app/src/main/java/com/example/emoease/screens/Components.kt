@@ -1,6 +1,10 @@
 package com.example.emoease.screens
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.CubicBezierEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Canvas
@@ -122,6 +126,25 @@ fun CustomSnackBar(
                 }
             })
     }
-
+}
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
+fun HorizontalSlideAnimation( content: @Composable () -> Unit ){
+    val visibility = remember {
+        mutableStateOf(false)
+    }
+    LaunchedEffect(visibility){
+        delay(1)
+        visibility.value=true
+    }
+    val slowEasing = CubicBezierEasing(0.2f, 0.0f, 0.2f, 1.0f)
+    AnimatedVisibility(
+        visible = visibility.value,
+        enter = slideInHorizontally(
+            initialOffsetX = { 300 },
+            animationSpec = tween(durationMillis = 1500, easing = slowEasing)
+        )){
+            content()
+        }
 }
 
