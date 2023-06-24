@@ -16,11 +16,13 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -35,6 +37,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.emoease.R
 import com.example.emoease.utils.FontFamEmo
 import com.example.emoease.utils.clickableWithoutRipple
@@ -148,3 +155,55 @@ fun HorizontalSlideAnimation( content: @Composable () -> Unit ){
         }
 }
 
+@Composable
+fun AnimatedLottie(
+    animationRes: Int,
+    modifier: Modifier = Modifier
+) {
+
+    // to keep track if the animation is playing
+    // and play pause accordingly
+    val isPlaying = remember {
+        mutableStateOf(true)
+    }
+    // for speed
+    val speed = remember {
+        mutableStateOf(1f)
+    }
+
+    // remember lottie composition ,which
+    // accepts the lottie composition result
+    val composition by rememberLottieComposition(
+        LottieCompositionSpec
+            .RawRes(animationRes)
+    )
+
+
+    // to control the animation
+    val progress by animateLottieCompositionAsState(
+        // pass the composition created above
+        composition,
+
+        // Iterates Forever
+        iterations = LottieConstants.IterateForever,
+
+        // pass isPlaying we created above,
+        // changing isPlaying will recompose
+        // Lottie and pause/play
+        isPlaying = isPlaying.value,
+
+        // pass speed we created above,
+        // changing speed will increase Lottie
+        speed = speed.value,
+
+        // this makes animation to restart when paused and play
+        // pass false to continue the animation at which it was paused
+        restartOnPlay = true
+
+    )
+    LottieAnimation(
+        composition,
+        progress,
+        modifier = modifier.size(400.dp)
+    )
+}

@@ -14,6 +14,14 @@ enum class EmoScreens {
              else -> throw IllegalArgumentException("Route $route is not recognized")
           }
     }
+}
 
-
+object Graph{
+    const val Root = "root_graph"
+    const val Authentication = "auth_graph"
+    const val Home = "home_graph"
+    const val Account = "account_graph"
+    const val Profile = "profile_graph"
+    const val Bottom = "bottom_graph"
+    const val Splash="splash_graph"
 }

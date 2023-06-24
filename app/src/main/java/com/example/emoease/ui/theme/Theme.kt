@@ -65,12 +65,40 @@ val LightThemeColors2 = lightColors(
     onBackground = Color.Black,
     onSurface = Color.Black
 )
+private val BlackAndWhiteColors = lightColors(
+    primary = Color.White,
+    onPrimary = Color.Black,
+    primaryVariant = Color.Black,
+    secondary = Color.White,
+    onSecondary = Color.Black,
+    secondaryVariant = Color.Black,
+    background = Color.White,
+    onBackground = Color.Black,
+    surface = Color.White,
+    onSurface = Color.Black,
+    error = Color.Red,
+    onError = Color.White
+)
+
+private val LightThemeColors5 = lightColors(
+    primary = Color(0xFF99F368),
+    onPrimary = Color.Black,
+    secondary = Color(0xFF99F368),
+    onSecondary = Color.Black,
+    background = Color(0xFF3D4E33),
+    onBackground = Color.White,
+    surface = Color.White,
+    onSurface = Color.Black,
+    error = Color.Red,
+    onError = Color.White
+    // Customize other color attributes as needed
+)
 @Composable
 fun EmoEaseTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     val colors = if (darkTheme) {
         DarkColorPalette
     } else {
-        LightColorPalette
+        LightThemeColors5
     }
 
     MaterialTheme(

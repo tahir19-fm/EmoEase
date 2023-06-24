@@ -12,7 +12,10 @@ import com.example.emoease.screens.bottomBar.BottomBarScreenContent
 import com.example.emoease.screens.bottomBar.MainScreen
 import com.example.emoease.screens.moodTrackingScreen.ui.MoodTrackingScreen
 import com.example.emoease.ui.theme.EmoEaseTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -12,7 +12,7 @@ import androidx.room.Query
 interface AppDatabaseDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE )
-    suspend fun insert(list:List<EmotionModal>)
+    suspend fun insert(activityModal: ActivityModal)
 
 
     @Query("SELECT * from emotion_tbl")
@@ -24,5 +24,6 @@ interface AppDatabaseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveMood(newsModel: EmotionModal)
 
-
+    @Query("SELECT * from activity_table WHERE activities = :id")
+    suspend fun getActivityItems(id:String):ActivityModal
 }
