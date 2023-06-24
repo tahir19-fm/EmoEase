@@ -29,6 +29,42 @@ private val LightColorPalette = lightColors(
     onSurface = Color(0xFF616161)
 )
 
+val LightThemeColors = lightColors(
+    primary = Color(0xFF6200EE),
+    primaryVariant = Color(0xFF3700B3),
+    secondary = Color(0xFF03DAC6),
+    background = Color.White,
+    surface = Color.White,
+    onPrimary = Color.White,
+    onSecondary = Color.Black,
+    onBackground = Color.Black,
+    onSurface = Color.Black
+)
+
+
+val LightThemeColors1 = lightColors(
+    primary = Color(0xFF03224E),
+    secondary = Color(0xFF7CB342),
+    background = Color(0xFFECEFF1),
+    surface = Color.White,
+    onPrimary = Color.White,
+    onSecondary = Color.Black,
+    onBackground = Color.Black,
+    onSurface = Color.Black
+)
+
+
+val LightThemeColors2 = lightColors(
+    primary = Color(0xFF03224E),
+    primaryVariant = Color(0xFF001529),
+    secondary = Color(0xFF03DAC6),
+    background = Color.White,
+    surface = Color.White,
+    onPrimary = Color.White,
+    onSecondary = Color.Black,
+    onBackground = Color.Black,
+    onSurface = Color.Black
+)
 @Composable
 fun EmoEaseTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     val colors = if (darkTheme) {

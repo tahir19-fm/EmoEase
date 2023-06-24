@@ -1,5 +1,7 @@
 package com.example.emoease.screens.moodTrackingScreen.util
 
+import androidx.room.TypeConverter
+
 val listOfActivities = listOf(
     "⚽️Football",
     "🏏Cricket",
@@ -27,3 +29,15 @@ val listOfSleep= listOf(
     "🕐Early awake",
     "🕝Late awake"
 )
+
+class ListConverter {
+    @TypeConverter
+    fun fromString(value: String): List<String> {
+        return value.split(",")
+    }
+
+    @TypeConverter
+    fun fromList(list: List<String>): String {
+        return list.joinToString(",")
+    }
+}

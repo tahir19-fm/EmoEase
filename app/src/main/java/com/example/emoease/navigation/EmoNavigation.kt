@@ -31,5 +31,11 @@ fun BottomNavGraph(
         composable(BottomBarScreen.Home.route){
             MoodTrackingScreen(onSaveMood = {},padding=padding)
         }
+        composable(BottomBarScreen.Account.route){
+
+        }
+        composable(BottomBarScreen.History.route){
+
+        }
     }
 }

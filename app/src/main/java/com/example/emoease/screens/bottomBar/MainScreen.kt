@@ -26,20 +26,18 @@ import androidx.navigation.compose.currentBackStackEntryAsState
  import com.example.emoease.utils.FontFamEmo
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
-@OptIn(ExperimentalAnimationApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun MainScreen(navController: NavHostController = rememberNavController()){
     val bottomBarState = rememberSaveable { (mutableStateOf(true)) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    Log.d("screernffjj", "${navBackStackEntry?.destination?.route} ")
     when (navBackStackEntry?.destination?.route) {
-        "home"->{
+        BottomBarScreen.Home.route->{
             bottomBarState.value=true
         }
-        "history"->{
+        BottomBarScreen.History.route->{
             bottomBarState.value=true
         }
-        "account"->{
+        BottomBarScreen.Account.route->{
             bottomBarState.value=true
         }
         else->{
@@ -56,8 +54,6 @@ fun MainScreen(navController: NavHostController = rememberNavController()){
 
            BottomNavGraph(navController = navController
                ,padding=it)
-
-
     }
 
 }
@@ -100,7 +96,6 @@ fun BottomBarScreenContent(
 
     CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
         BottomNavigation(
-            backgroundColor = Color.White
         ) {
             // this is a row scope
             // all items are added horizontally
