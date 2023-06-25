@@ -134,7 +134,6 @@ fun CustomSnackBar(
             })
     }
 }
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun HorizontalSlideAnimation( content: @Composable () -> Unit ){
     val visibility = remember {

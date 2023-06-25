@@ -1,7 +1,6 @@
 package com.example.emoease.screens.moodTrackingScreen.ui
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -38,8 +37,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -51,6 +48,7 @@ import com.example.emoease.screens.AnimatedLottie
 import com.example.emoease.screens.HorizontalSlideAnimation
 import com.example.emoease.screens.moodTrackingScreen.data.MoodItem
 import com.example.emoease.utils.FontFamEmo
+import com.example.emoease.utils.clickableWithoutRipple
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -67,19 +65,26 @@ fun MyMood(currMood: Int) {
     }
     val currentDate = Calendar.getInstance().time
     val dateFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
-    val dayFormat= SimpleDateFormat("EEEE", Locale.getDefault())
-    val formattedDay=dayFormat.format(currentDate)
+    val dayFormat = SimpleDateFormat("EEEE", Locale.getDefault())
+    val formattedDay = dayFormat.format(currentDate)
     val formattedDate = dateFormat.format(currentDate)
-    Column(  modifier = Modifier
-        .height(200.dp)
-        .clip(shape = RoundedCornerShape(bottomStart = 50.dp, bottomEnd = 50.dp))
-        .background(MaterialTheme.colors.primary),
-        horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = formattedDay, fontFamily = FontFamEmo.quicksand_bold, fontWeight = FontWeight.Bold, fontSize = 44.sp, color = MaterialTheme.colors.background)
+    Column(
+        modifier = Modifier
+            .height(200.dp)
+            .clip(shape = RoundedCornerShape(bottomStart = 50.dp, bottomEnd = 50.dp))
+            .background(MaterialTheme.colors.primary),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = formattedDay,
+            fontFamily = FontFamEmo.quicksand_bold,
+            fontWeight = FontWeight.Bold,
+            fontSize = 44.sp,
+            color = MaterialTheme.colors.background
+        )
         Text(text = formattedDate, fontSize = 20.sp, color = MaterialTheme.colors.background)
         Box(
-            modifier = Modifier
-                .fillMaxWidth(), contentAlignment = Alignment.Center
+            modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center
         ) {
 //            Image(
 //                painter = painterResource(id = currMood),
@@ -97,7 +102,7 @@ fun MyMood(currMood: Int) {
 }
 
 @Composable
-fun Rating( onClick: (Int) -> Unit) {
+fun Rating(onClick: (Int) -> Unit) {
     val listOfMoods = listOf(
         MoodItem("happy", R.raw.happy_emoji),
         MoodItem("very happy", R.raw.very_happy_emojji),
@@ -146,7 +151,7 @@ fun MoodRow(
 //                            .padding(6.dp),
 //                        contentScale = ContentScale.Fit
 //                    )
-                    AnimatedLottie(animationRes = mood.drawableRes,modifier=Modifier.size(80.dp))
+                    AnimatedLottie(animationRes = mood.drawableRes, modifier = Modifier.size(80.dp))
 
                 }
                 Text(text = mood.mood)
@@ -178,7 +183,12 @@ fun CircleCard(
 }
 
 @Composable
-fun ActivityCard(title: String, icon: ImageVector, itemList: List<String>) {
+fun ActivityCard(
+    title: String,
+    icon: ImageVector,
+    itemList: List<String>,
+    onClick: (String) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -200,7 +210,7 @@ fun ActivityCard(title: String, icon: ImageVector, itemList: List<String>) {
                 modifier = Modifier.wrapContentSize(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                if (itemList.isEmpty()) {
+                if (itemList.isEmpty() || itemList.size==1 && itemList[0]=="") {
                     item {
                         Card(
                             shape = RoundedCornerShape(8.dp),
@@ -216,9 +226,10 @@ fun ActivityCard(title: String, icon: ImageVector, itemList: List<String>) {
                         }
 
                     }
-                }
-                items(itemList) { name ->
-                    ItemCard(name)
+                }else {
+                    items(itemList) { name ->
+                        ItemCard(name)
+                    }
                 }
                 item {
                     Text(text = "Change", style = TextStyle(
@@ -228,7 +239,7 @@ fun ActivityCard(title: String, icon: ImageVector, itemList: List<String>) {
                     ), modifier = Modifier
                         .padding(start = 8.dp)
                         .clickable {
-                            //TODO on click change we will open a new screen
+                            onClick.invoke(title)
                         })
                 }
             }
@@ -237,12 +248,21 @@ fun ActivityCard(title: String, icon: ImageVector, itemList: List<String>) {
 }
 
 @Composable
-fun ItemCard(itemName: String,modifier: Modifier = Modifier) {
+fun ItemCard(
+    itemName: String,
+    selected: Boolean = false,
+    color: Color = MaterialTheme.colors.secondary,
+    modifier: Modifier = Modifier,
+    onClick: (String) -> Unit = {}
+) {
     Card(
         modifier = modifier
             .wrapContentSize()
-            .padding(horizontal = 4.dp),
-        backgroundColor = MaterialTheme.colors.secondary,
+            .padding(horizontal = 4.dp)
+            .clickableWithoutRipple {
+                onClick.invoke(itemName)
+            },
+        backgroundColor = if (!selected) color else MaterialTheme.colors.primary,
         border = BorderStroke(
             1.dp, Brush.horizontalGradient(
                 listOf(
@@ -253,9 +273,7 @@ fun ItemCard(itemName: String,modifier: Modifier = Modifier) {
         shape = RoundedCornerShape(12.dp)
     ) {
         Text(
-            text = itemName,
-            style = TextStyle(fontSize = 18.sp),
-            modifier = modifier.padding(10.dp)
+            text = itemName, style = TextStyle(fontSize = 18.sp), modifier = modifier.padding(10.dp)
         )
     }
 }
@@ -288,45 +306,45 @@ fun MyNotes(showAlertBox: MutableState<Boolean>, noteText: MutableState<String>)
 
 
 @Composable
-fun NotesWritingScreen(
+fun AlertBox(
     showDialog: Boolean,
     onDialogDismiss: () -> Unit,
     onSaveNote: (String) -> Unit,
-    noteText: MutableState<String>
+    noteText: MutableState<String>,
+    title: String = "Write a Note"
 ) {
     if (showDialog) {
-        AlertDialog(onDismissRequest = { onDialogDismiss() },
-            confirmButton = {
-                Button(onClick = { onSaveNote.invoke(noteText.value)
-                    onDialogDismiss()}) {
-                    Text(text = "Save")
-                }
-            }, dismissButton = {
-                Button(onClick = {
-                    onDialogDismiss()
-                }) {
-                    Text(text = "Cancel")
-                }
-            }, text = {
-                Column {
-                    Text(
-                        text = "Write a Note",
-                        modifier = Modifier.padding(6.dp),
-                        color = Color.Black
+        AlertDialog(onDismissRequest = { onDialogDismiss() }, confirmButton = {
+            Button(onClick = {
+                onSaveNote.invoke(noteText.value)
+                onDialogDismiss()
+            }) {
+                Text(text = "Save")
+            }
+        }, dismissButton = {
+            Button(onClick = {
+                onDialogDismiss()
+            }) {
+                Text(text = "Cancel")
+            }
+        }, text = {
+            Column {
+                Text(
+                    text = title, modifier = Modifier.padding(6.dp), color = Color.Black
+                )
+                TextField(
+                    value = noteText.value,
+                    onValueChange = { noteText.value = it },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .padding(top = 8.dp),
+                    textStyle = MaterialTheme.typography.body1,
+
                     )
-                    TextField(
-                        value = noteText.value,
-                        onValueChange = {noteText.value=it},
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentHeight()
-                            .padding(top = 8.dp),
-                        textStyle = MaterialTheme.typography.body1,
+            }
 
-                        )
-                }
-
-            })
+        })
     }
 }
 

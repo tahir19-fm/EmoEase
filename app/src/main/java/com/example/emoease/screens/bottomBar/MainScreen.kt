@@ -25,6 +25,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
  import androidx.navigation.compose.rememberNavController
  import com.example.emoease.navigation.BottomNavGraph
+ import com.example.emoease.screens.HorizontalSlideAnimation
  import com.example.emoease.utils.FontFamEmo
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -49,17 +50,17 @@ fun MainScreen(navController: NavHostController = rememberNavController()){
             bottomBarState.value=false
         }
     }
-
-   Scaffold( bottomBar = {
+    Scaffold( bottomBar = {
         BottomBar(
             navController = navController,
             bottomBarState=bottomBarState
         )
     }) {
-
-           BottomNavGraph(navController = navController
-               ,padding=it)
+        BottomNavGraph(navController = navController
+            ,padding=it)
     }
+
+
 
 }
 

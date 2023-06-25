@@ -1,6 +1,9 @@
 package com.example.emoease.screens.moodTrackingScreen.util
 
 import androidx.room.TypeConverter
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 val listOfActivities = listOf(
     "⚽️Football",
@@ -40,4 +43,10 @@ class ListConverter {
     fun fromList(list: List<String>): String {
         return list.joinToString(",")
     }
+}
+
+ fun todayDate(): String {
+    val currentDate = Calendar.getInstance().time
+    val dateFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
+    return dateFormat.format(currentDate)
 }

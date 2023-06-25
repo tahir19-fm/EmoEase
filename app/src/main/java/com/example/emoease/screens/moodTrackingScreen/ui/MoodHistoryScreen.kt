@@ -25,6 +25,7 @@ fun MoodHistoryScreen(){
         //item card date and mood
         //on click details of that mood
 //        AnimatedLottie(animationRes = R.raw.very_sad_emoji)
+
     }
 }
 

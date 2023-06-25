@@ -8,6 +8,7 @@ import androidx.compose.material.BottomAppBar
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import com.example.emoease.navigation.RootNavGraph
 import com.example.emoease.screens.bottomBar.BottomBarScreenContent
 import com.example.emoease.screens.bottomBar.MainScreen
 import com.example.emoease.screens.moodTrackingScreen.ui.MoodTrackingScreen
@@ -26,8 +27,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    MainScreen()
-
+                   // MainScreen()
+                    RootNavGraph()
                 //   MoodTrackingScreen(onSaveMood = {}, padding = padding)
                  //   LoginScreen()
                 }
