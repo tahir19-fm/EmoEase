@@ -47,13 +47,22 @@ interface AppDatabaseDao {
     @Query("SELECT myNote from emotion_tbl WHERE id=:id")
     suspend fun getNotes(id: String):String
 
+    @Query("UPDATE emotion_tbl SET activities =:newValue WHERE id=:id")
+    suspend fun updateActivities(newValue:List<String>,id:String)
+    @Query("UPDATE emotion_tbl SET activities =:newValue WHERE id=:id")
+    suspend fun updateSocials(newValue:List<String>,id:String)
+    @Query("UPDATE emotion_tbl SET activities =:newValue WHERE id=:id")
+    suspend fun updateSleep(newValue:List<String>,id:String)
+    @Query("UPDATE emotion_tbl SET activities =:newValue WHERE id=:id")
+    suspend fun updateSymptoms(newValue:List<String>,id:String)
+
     //get all activity list
     @Query("SELECT * from activity_table WHERE activities = :id")
     suspend fun getActivityItems(id:String):ActivityModal
 
     //add new activity item
     @Query("UPDATE activity_table SET items = :newValue WHERE activities = :itemId")
-    suspend fun updateColumnValue(itemId: String, newValue: List<String>)
+    suspend fun updateActivityColumnValue(itemId: String, newValue: List<String>)
 
     //get activity items
     @Query("SELECT :name from emotion_tbl WHERE id=:id")

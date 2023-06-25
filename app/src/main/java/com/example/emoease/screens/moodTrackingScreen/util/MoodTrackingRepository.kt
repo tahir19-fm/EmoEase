@@ -29,4 +29,17 @@ class MoodTrackingRepository @Inject constructor(private val roomDatabase: AppDa
     suspend fun getMood(id: String): ApiResult.Success<Int> {
         return ApiResult.Success(roomDatabase.getMood(id))
     }
+
+    suspend fun updateActivities(newValue:List<String>,id: String){
+        return roomDatabase.updateActivities(newValue,id)
+    }
+    suspend fun updateSocials(newValue:List<String>,id: String){
+        return roomDatabase.updateSocials(newValue,id)
+    }
+    suspend fun updateSleep(newValue:List<String>,id: String){
+        return roomDatabase.updateSleep(newValue,id)
+    }
+    suspend fun updateSymptoms(newValue:List<String>,id: String){
+        return roomDatabase.updateSymptoms(newValue,id)
+    }
 }

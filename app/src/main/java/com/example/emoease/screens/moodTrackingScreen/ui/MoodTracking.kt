@@ -130,6 +130,7 @@ fun MoodTrackingScreen(
         ActivityCard(
             title = Constants.Activities, icon = Icons.Default.SportsTennis, itemList = activities
         ) {
+            viewModel.selectedItems(activities,Constants.Activities)
             navController.navigate(MoodScreens.ActivitySelectScreen.route + "/$it")
         }
         ActivityCard(

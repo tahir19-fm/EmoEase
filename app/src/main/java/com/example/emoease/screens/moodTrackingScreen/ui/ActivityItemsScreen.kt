@@ -27,10 +27,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.emoease.screens.moodTrackingScreen.util.Constants
 import com.example.emoease.screens.moodTrackingScreen.util.MoodTrackingViewModel
 import com.example.emoease.screens.moodTrackingScreen.util.listOfActivities
+import com.example.emoease.screens.moodTrackingScreen.util.todayDate
 import com.example.emoease.utils.FontFamEmo
 import com.example.emoease.utils.clickableWithoutRipple
+import timber.log.Timber
 
 @Composable
 fun ActivityItemScreen(
@@ -55,6 +58,9 @@ fun ActivityItemScreen(
         val text = remember {
             mutableStateOf("")
         }
+
+//        LaunchedEffect(selectedItems.value){
+//        }
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -78,7 +84,7 @@ fun ActivityItemScreen(
                             rowItems.forEach { item ->
                                 // Display your item composable here
                                 val selected= remember {
-                                    mutableStateOf(false)
+                                    mutableStateOf(selectedItems.value.contains(item))
                                 }
                                 ItemCard(itemName = item, selected = selected.value){
                                     selected.value=!selected.value
@@ -97,7 +103,11 @@ fun ActivityItemScreen(
                     })
                 }
             }
-            Button(onClick = { /*TODO*/ },
+            Button(onClick = {
+                Timber.tag("selectedValiue").d(title.toString())
+                viewModel.selectedItems(list = selectedItems.value,title?:"" )
+
+            },
             shape = RoundedCornerShape(40.dp),
                 colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
                 modifier = Modifier

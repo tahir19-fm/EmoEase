@@ -55,8 +55,6 @@ class MoodTrackingViewModel @Inject constructor(private val repository: MoodTrac
             )
         }
     }
-
-
     private val _emotionDetails = MutableLiveData<ApiResult<EmotionModal>>()
     val emotionDetails : MutableLiveData<ApiResult<EmotionModal>>
         get() = _emotionDetails
@@ -84,13 +82,56 @@ class MoodTrackingViewModel @Inject constructor(private val repository: MoodTrac
             getMood(id)
         }
     }
+    private fun updateActivities(list: List<String>, id: String){
+        viewModelScope.launch {
+            repository.updateActivities(list,id)
+        }.invokeOnCompletion {
+            getEmotionDetails(id)
+        }
+    }
+    private fun updateSocials(list: List<String>, id: String){
+        viewModelScope.launch {
+            repository.updateSocials(list,id)
+        }.invokeOnCompletion {
+            getMood(id)
+        }
+    }
+    private fun updateSleep(list: List<String>, id: String){
+        viewModelScope.launch {
+            repository.updateSleep(list,id)
+        }.invokeOnCompletion {
+            getMood(id)
+        }
+    }
+    private fun updateSymptoms(list: List<String>, id: String){
+        viewModelScope.launch {
+            repository.updateSymptoms(list,id)
+        }.invokeOnCompletion {
+            getMood(id)
+        }
+    }
 
 
     private val _selectedItems = MutableLiveData<List<String>>()
     val selectedItems : MutableLiveData<List<String>>
         get() = _selectedItems
-    fun selectedItems(list:List<String>){
+    fun selectedItems(list:List<String>,id: String){
         _selectedItems.value=list
+        when(id){
+            Constants.Activities->{
+                updateActivities(list, todayDate())
+            }
+            Constants.Social->{
+                updateSocials(list = list, todayDate())
+            }
+            Constants.Sleep->{
+                updateSleep(list, todayDate())
+            }
+            Constants.Symptoms->{
+                updateSymptoms(list = list, todayDate())
+            }
+        }
     }
+
 
 }
