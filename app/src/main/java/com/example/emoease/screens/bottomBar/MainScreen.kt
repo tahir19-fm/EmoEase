@@ -7,13 +7,15 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
  import androidx.compose.foundation.ExperimentalFoundationApi
+ import androidx.compose.foundation.background
  import androidx.compose.material.*
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.graphics.Color
+ import androidx.compose.ui.Modifier
+ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
  import androidx.compose.ui.text.TextStyle
  import androidx.compose.ui.unit.sp
@@ -40,6 +42,9 @@ fun MainScreen(navController: NavHostController = rememberNavController()){
         BottomBarScreen.Account.route->{
             bottomBarState.value=true
         }
+        BottomBarScreen.Exercise.route->{
+            bottomBarState.value=true
+        }
         else->{
             bottomBarState.value=false
         }
@@ -63,7 +68,9 @@ fun BottomBar(navController: NavHostController, bottomBarState: MutableState<Boo
     val screens = listOf(
         BottomBarScreen.Home,
         BottomBarScreen.History,
+        BottomBarScreen.Exercise,
         BottomBarScreen.Account
+
     )
 
 
@@ -128,7 +135,9 @@ fun BottomBarScreenContent(
                     label = {
                         Text(text = menuItem.title, style = TextStyle(fontFamily =if(selected) FontFamEmo.quicksand_medium else FontFamEmo.quicksand_regular, fontSize = 14.sp))
                     },
-                    enabled = true
+                    enabled = true,
+                    modifier = Modifier.background(MaterialTheme.colors.surface),
+                    selectedContentColor = MaterialTheme.colors.onSurface
                 )
             }
         }

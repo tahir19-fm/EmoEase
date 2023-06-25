@@ -160,44 +160,47 @@ fun AnimatedLottie(
     animationRes: Int,
     modifier: Modifier = Modifier
 ) {
-
-    // to keep track if the animation is playing
-    // and play pause accordingly
     val isPlaying = remember {
         mutableStateOf(true)
     }
-    // for speed
     val speed = remember {
         mutableStateOf(1f)
     }
-
-    // remember lottie composition ,which
-    // accepts the lottie composition result
     val composition by rememberLottieComposition(
         LottieCompositionSpec
             .RawRes(animationRes)
     )
-
-
-    // to control the animation
     val progress by animateLottieCompositionAsState(
-        // pass the composition created above
         composition,
-
-        // Iterates Forever
         iterations = LottieConstants.IterateForever,
-
-        // pass isPlaying we created above,
-        // changing isPlaying will recompose
-        // Lottie and pause/play
         isPlaying = isPlaying.value,
-
-        // pass speed we created above,
-        // changing speed will increase Lottie
         speed = speed.value,
+        restartOnPlay = true
 
-        // this makes animation to restart when paused and play
-        // pass false to continue the animation at which it was paused
+    )
+    LottieAnimation(
+        composition,
+        progress,
+        modifier = modifier.size(400.dp)
+    )
+}
+
+@Composable
+fun AnimatedLottieUrl(url:String,modifier: Modifier=Modifier){
+    val isPlaying = remember {
+        mutableStateOf(true)
+    }
+    val speed = remember {
+        mutableStateOf(1f)
+    }
+    val composition by rememberLottieComposition(
+        LottieCompositionSpec.Url(url)
+    )
+    val progress by animateLottieCompositionAsState(
+        composition,
+        iterations = LottieConstants.IterateForever,
+        isPlaying = isPlaying.value,
+        speed = speed.value,
         restartOnPlay = true
 
     )

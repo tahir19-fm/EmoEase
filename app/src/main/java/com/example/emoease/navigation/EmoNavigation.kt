@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.emoease.screens.bottomBar.BottomBarScreen
+import com.example.emoease.screens.exerciseScreen.ui.ExerciseScreen
 import com.example.emoease.screens.moodTrackingScreen.ui.MoodHistoryScreen
 import com.example.emoease.screens.moodTrackingScreen.ui.MoodTrackingScreen
 import com.example.emoease.screens.moodTrackingScreen.util.MoodTrackingViewModel
@@ -24,10 +25,12 @@ fun BottomNavGraph(
             },padding=padding,viewModel=viewModel,navController=navController)
         }
         composable(BottomBarScreen.Account.route){
-
         }
         composable(BottomBarScreen.History.route){
             MoodHistoryScreen()
+        }
+        composable(BottomBarScreen.Exercise.route){
+            ExerciseScreen()
         }
 
     }

@@ -81,13 +81,13 @@ private val BlackAndWhiteColors = lightColors(
 )
 
 private val LightThemeColors5 = lightColors(
-    primary = Color(0xFF99F368),
-    onPrimary = Color.Black,
-    secondary = Color(0xFF99F368),
+    primary = primary,
+    onPrimary = Color.White,
+    secondary = secondary,
     onSecondary = Color.Black,
-    background = Color(0xFF3D4E33),
-    onBackground = Color.White,
-    surface = Color.White,
+    background = background,
+    onBackground = Color.Black,
+    surface = surface,
     onSurface = Color.Black,
     error = Color.Red,
     onError = Color.White
