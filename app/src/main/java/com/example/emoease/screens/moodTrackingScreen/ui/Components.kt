@@ -317,13 +317,12 @@ fun AlertBox(
         AlertDialog(onDismissRequest = { onDialogDismiss() }, confirmButton = {
             Button(onClick = {
                 onSaveNote.invoke(noteText.value)
-                onDialogDismiss()
             }) {
                 Text(text = "Save")
             }
         }, dismissButton = {
             Button(onClick = {
-                onDialogDismiss()
+
             }) {
                 Text(text = "Cancel")
             }

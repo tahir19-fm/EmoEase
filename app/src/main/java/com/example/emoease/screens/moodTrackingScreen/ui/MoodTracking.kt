@@ -136,17 +136,20 @@ fun MoodTrackingScreen(
         ActivityCard(
             title = Constants.Social, icon = Icons.Default.Group, itemList = social
         ) {
-
+            viewModel.selectedItems(social,Constants.Social)
+            navController.navigate(MoodScreens.ActivitySelectScreen.route + "/$it")
         }
         ActivityCard(
             title = Constants.Sleep, icon = Icons.Default.Bed, itemList = sleep
         ) {
-
+            viewModel.selectedItems(sleep,Constants.Sleep)
+            navController.navigate(MoodScreens.ActivitySelectScreen.route + "/$it")
         }
         ActivityCard(
             title = Constants.Symptoms, icon = Icons.Default.Face, itemList = symptoms
         ) {
-
+            viewModel.selectedItems(symptoms,Constants.Symptoms)
+            navController.navigate(MoodScreens.ActivitySelectScreen.route + "/$it")
         }
         MyNotes(showAlertBox, noteText)
         AlertBox(

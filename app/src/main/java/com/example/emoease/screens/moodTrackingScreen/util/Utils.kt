@@ -33,20 +33,27 @@ val listOfSleep= listOf(
     "🕝Late awake"
 )
 
-class ListConverter {
-    @TypeConverter
-    fun fromString(value: String): List<String> {
-        return value.split(",")
-    }
 
-    @TypeConverter
-    fun fromList(list: List<String>): String {
-        return list.joinToString(",")
-    }
-}
 
  fun todayDate(): String {
     val currentDate = Calendar.getInstance().time
     val dateFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
     return dateFormat.format(currentDate)
+}
+fun getActivityId(name:String):String{
+    when(name){
+        Constants.Activities->{
+            return "activities"
+        }
+        Constants.Social->{
+            return "social"
+        }
+        Constants.Sleep->{
+            return "sleep"
+        }
+        Constants.Symptoms->{
+            return "symptoms"
+        }
+    }
+    return ""
 }

@@ -49,11 +49,11 @@ interface AppDatabaseDao {
 
     @Query("UPDATE emotion_tbl SET activities =:newValue WHERE id=:id")
     suspend fun updateActivities(newValue:List<String>,id:String)
-    @Query("UPDATE emotion_tbl SET activities =:newValue WHERE id=:id")
+    @Query("UPDATE emotion_tbl SET social =:newValue WHERE id=:id")
     suspend fun updateSocials(newValue:List<String>,id:String)
-    @Query("UPDATE emotion_tbl SET activities =:newValue WHERE id=:id")
+    @Query("UPDATE emotion_tbl SET sleep =:newValue WHERE id=:id")
     suspend fun updateSleep(newValue:List<String>,id:String)
-    @Query("UPDATE emotion_tbl SET activities =:newValue WHERE id=:id")
+    @Query("UPDATE emotion_tbl SET symptoms =:newValue WHERE id=:id")
     suspend fun updateSymptoms(newValue:List<String>,id:String)
 
     //get all activity list
@@ -65,6 +65,16 @@ interface AppDatabaseDao {
     suspend fun updateActivityColumnValue(itemId: String, newValue: List<String>)
 
     //get activity items
-    @Query("SELECT :name from emotion_tbl WHERE id=:id")
-    suspend fun getSelectedActivity(name: String,id: String):List<String>
+    @Query("SELECT activities from emotion_tbl WHERE id=:id")
+    suspend fun getSelectedActivity(id: String):List<String>
+    //get activity items
+    @Query("SELECT social from emotion_tbl WHERE id=:id")
+    suspend fun getSelectedSocial(id: String):List<String>
+    //get activity items
+    @Query("SELECT sleep from emotion_tbl WHERE id=:id")
+    suspend fun getSelectedSleep(id: String):List<String>
+    //get activity items
+    @Query("SELECT symptoms from emotion_tbl WHERE id=:id")
+    suspend fun getSelectedSymptoms(id: String):List<String>
+
 }

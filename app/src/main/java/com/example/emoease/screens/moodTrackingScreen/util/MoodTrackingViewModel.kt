@@ -1,13 +1,12 @@
 package com.example.emoease.screens.moodTrackingScreen.util
 
-import android.icu.text.CaseMap.Title
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.emoease.networkService.ApiResult
 import com.example.emoease.roomDb.ActivityModal
 import com.example.emoease.roomDb.EmotionModal
-import com.google.protobuf.Api
+import com.example.emoease.utils.stringToList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -16,18 +15,11 @@ import javax.inject.Inject
 @HiltViewModel
 class MoodTrackingViewModel @Inject constructor(private val repository: MoodTrackingRepository) :ViewModel() {
     init {
-//        viewModelScope.launch{
-//            val list= listOfActivities.toMutableList()
-//            list.add("🏑KhoKho")
-//            repository.saveActivityItem(ActivityModal(
-//                "Activities",
-//                list
-//            ))
-//        }
-//        viewModelScope.launch {
-//           val r= repository.getActivityItems("Activities")
-//            Timber.tag("roomResult").d("${r.items}")
-//        }
+
+        viewModelScope.launch {
+            repository.saveActivityItem(ActivityModal(Constants.Symptoms, emptyList()))
+        }
+
     }
     fun saveMood(emotionModal: EmotionModal){
        viewModelScope.launch {
@@ -110,13 +102,23 @@ class MoodTrackingViewModel @Inject constructor(private val repository: MoodTrac
             getMood(id)
         }
     }
+    fun updateActivityItem(id: String,newItem:String){
+        val list= activityItems.value?.data?.items as List<String>
+        val newList=ArrayList<String>()
+        newList.addAll(list)
+        newList.add(newItem)
+        viewModelScope.launch{
+            repository.updateActivityColumn(id,newList)
+        }.invokeOnCompletion {
+            getActivityItems(id)
+        }
+    }
 
 
-    private val _selectedItems = MutableLiveData<List<String>>()
-    val selectedItems : MutableLiveData<List<String>>
+    private val _selectedItems = MutableLiveData<ApiResult<List<String>>>()
+    val selectedItems : MutableLiveData<ApiResult<List<String>>>
         get() = _selectedItems
     fun selectedItems(list:List<String>,id: String){
-        _selectedItems.value=list
         when(id){
             Constants.Activities->{
                 updateActivities(list, todayDate())
@@ -131,7 +133,26 @@ class MoodTrackingViewModel @Inject constructor(private val repository: MoodTrac
                 updateSymptoms(list = list, todayDate())
             }
         }
+        _selectedItems.value=ApiResult.Loading
+        viewModelScope.launch {
+           _selectedItems.value= repository.getSelectedActivityItems(id, todayDate())
+            if (selectedItems.value?.data?.size ==1){
+                _selectedItems.value=ApiResult.Success(stringToList(selectedItems.value!!.data?.get(0) ?: ""))
+            }
+            for (item in selectedItems.value?.data!!){
+                Timber.tag("selectredItems").d(item)
+            }
+        }
     }
+
+    fun checkSelected(item: String): Boolean {
+        val data=selectedItems.value?.data as List<String>
+        if (data.contains(item)){
+            return true
+        }
+        return false
+    }
+
 
 
 }

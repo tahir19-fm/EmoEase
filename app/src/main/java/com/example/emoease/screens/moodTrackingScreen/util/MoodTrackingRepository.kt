@@ -42,4 +42,25 @@ class MoodTrackingRepository @Inject constructor(private val roomDatabase: AppDa
     suspend fun updateSymptoms(newValue:List<String>,id: String){
         return roomDatabase.updateSymptoms(newValue,id)
     }
+
+    suspend fun updateActivityColumn(activityName: String,newValue: List<String>){
+        roomDatabase.updateActivityColumnValue(activityName,newValue)
+    }
+    suspend fun getSelectedActivityItems(activityName:String,id: String):ApiResult<List<String>>{
+        when(activityName){
+            Constants.Activities->{
+                return ApiResult.Success(roomDatabase.getSelectedActivity(id))
+            }
+            Constants.Social->{
+                return ApiResult.Success(roomDatabase.getSelectedSocial(id))
+            }
+            Constants.Sleep->{
+                return ApiResult.Success(roomDatabase.getSelectedSleep(id))
+            }
+            Constants.Symptoms->{
+                return ApiResult.Success(roomDatabase.getSelectedSymptoms(id))
+            }
+        }
+        return ApiResult.Error("No data found")
+    }
 }

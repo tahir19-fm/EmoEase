@@ -11,14 +11,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import com.example.emoease.screens.HorizontalSlideAnimation
+import com.example.emoease.screens.moodTrackingScreen.util.MoodTrackingViewModel
 import com.example.emoease.screens.bottomBar.BottomBarScreen
 import com.example.emoease.screens.bottomBar.MainScreen
 import com.example.emoease.screens.exerciseScreen.ui.ExerciseScreen
 import com.example.emoease.screens.moodTrackingScreen.ui.ActivityItemScreen
 import com.example.emoease.screens.moodTrackingScreen.ui.MoodHistoryScreen
 import com.example.emoease.screens.moodTrackingScreen.ui.MoodTrackingScreen
-import com.example.emoease.screens.moodTrackingScreen.util.MoodTrackingViewModel
 
 
 
@@ -41,7 +40,7 @@ fun BottomNavGraph(
     navController: NavHostController,
     padding: PaddingValues,
 ) {
-    val viewModel:MoodTrackingViewModel = hiltViewModel()
+    val viewModel: MoodTrackingViewModel = hiltViewModel()
     NavHost(navController = navController, route = Graph.Bottom, startDestination = BottomBarScreen.Home.route){
         composable(BottomBarScreen.Home.route){
                 MoodTrackingScreen(onSaveMood = {
