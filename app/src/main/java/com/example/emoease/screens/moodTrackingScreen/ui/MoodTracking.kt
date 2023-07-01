@@ -65,6 +65,9 @@ fun MoodTrackingScreen(
     val showAlertBox = remember {
         mutableStateOf(false)
     }
+    //TODO: if the date is not in db add new option to start insertion of new date into db
+
+
     //observing mood data
     when (val value = viewModel.mood.observeAsState().value) {
         ApiResult.Loading -> {

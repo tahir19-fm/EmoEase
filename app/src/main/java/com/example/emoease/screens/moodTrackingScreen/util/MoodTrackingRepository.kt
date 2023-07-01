@@ -5,7 +5,9 @@ import com.example.emoease.networkService.ApiResult
 import com.example.emoease.roomDb.ActivityModal
 import com.example.emoease.roomDb.AppDatabaseDao
 import com.example.emoease.roomDb.EmotionModal
+import com.example.emoease.screens.exerciseScreen.ui.AppHeader
 import com.example.emoease.screens.moodTrackingScreen.data.MoodEntry
+import timber.log.Timber
 import javax.inject.Inject
 
 class MoodTrackingRepository @Inject constructor(private val roomDatabase: AppDatabaseDao) {
@@ -15,6 +17,37 @@ class MoodTrackingRepository @Inject constructor(private val roomDatabase: AppDa
     suspend fun saveActivityItem(activityModal: ActivityModal){
         roomDatabase.insert(activityModal = activityModal)
     }
+    suspend fun getEmotionHistory(): ApiResult<List<EmotionModal>> {
+        try {
+            val result = roomDatabase.getEmotionHistory() // Execute Room query
+            return if (result.isNotEmpty()){
+                ApiResult.Success(result)
+            }else{
+                ApiResult.Error("No Data Found")
+            }
+            // Handle the result
+        } catch (e: Exception) {
+            // Handle the error
+            e.localizedMessage?.let { ApiResult.Error(it) }
+        }
+        return ApiResult.Error("Execution Failed")
+    }
+
+    suspend fun getListByMood(mood:Int): ApiResult<List<EmotionModal>>? {
+        return try {
+            val result=roomDatabase.getListByMood(mood = mood)
+            if (result.isNotEmpty()){
+                ApiResult.Success(result)
+            }else{
+                ApiResult.Error("Empty List")
+            }
+        }catch (e:Exception){
+            e.localizedMessage?.let { ApiResult.Error(it) }
+        }
+    }
+
+
+
     suspend fun getActivityItems(id:String):ApiResult<ActivityModal>{
       return  ApiResult.Success(roomDatabase.getActivityItems(id))
     }

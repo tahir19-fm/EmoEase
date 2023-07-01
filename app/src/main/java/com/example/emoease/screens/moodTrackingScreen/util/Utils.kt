@@ -1,6 +1,8 @@
 package com.example.emoease.screens.moodTrackingScreen.util
 
 import androidx.room.TypeConverter
+import com.example.emoease.R
+import com.example.emoease.screens.moodTrackingScreen.data.MoodItem
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -57,3 +59,15 @@ fun getActivityId(name:String):String{
     }
     return ""
 }
+
+val listOfMoods = listOf(
+    MoodItem("happy", R.raw.happy_emoji),
+    MoodItem("very happy", R.raw.very_happy_emojji),
+    MoodItem("neutral", R.raw.neutral_emoji),
+    MoodItem("sad", R.raw.sad_emoji),
+    MoodItem("sad and tired", R.raw.very_sad_emoji),
+    MoodItem("angry", R.raw.angry_emoji),
+    MoodItem("very angry", R.raw.very_angry_emoji),
+)
+
+

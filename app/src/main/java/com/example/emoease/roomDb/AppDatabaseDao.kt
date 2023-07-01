@@ -15,10 +15,9 @@ interface AppDatabaseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE )
     suspend fun insert(activityModal: ActivityModal)
 
-
     //get full data from emotion table
     @Query("SELECT * from emotion_tbl")
-    suspend fun getList():List<EmotionModal>
+    suspend fun getEmotionHistory():List<EmotionModal>
 
     //delete emotion table
     @Query("DELETE from emotion_tbl")
@@ -56,13 +55,9 @@ interface AppDatabaseDao {
     @Query("UPDATE emotion_tbl SET symptoms =:newValue WHERE id=:id")
     suspend fun updateSymptoms(newValue:List<String>,id:String)
 
-    //get all activity list
-    @Query("SELECT * from activity_table WHERE activities = :id")
-    suspend fun getActivityItems(id:String):ActivityModal
-
-    //add new activity item
-    @Query("UPDATE activity_table SET items = :newValue WHERE activities = :itemId")
-    suspend fun updateActivityColumnValue(itemId: String, newValue: List<String>)
+    //get list by mood
+    @Query("SELECT * from emotion_tbl WHERE mood=:mood")
+    suspend fun getListByMood(mood:Int):List<EmotionModal>
 
     //get activity items
     @Query("SELECT activities from emotion_tbl WHERE id=:id")
@@ -76,5 +71,12 @@ interface AppDatabaseDao {
     //get activity items
     @Query("SELECT symptoms from emotion_tbl WHERE id=:id")
     suspend fun getSelectedSymptoms(id: String):List<String>
+    //get all activity list
+    @Query("SELECT * from activity_table WHERE activities = :id")
+    suspend fun getActivityItems(id:String):ActivityModal
+
+    //add new activity item
+    @Query("UPDATE activity_table SET items = :newValue WHERE activities = :itemId")
+    suspend fun updateActivityColumnValue(itemId: String, newValue: List<String>)
 
 }

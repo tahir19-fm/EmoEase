@@ -96,19 +96,19 @@ fun ActivityItemScreen(
             if (selected != null) {
                 selectedItems.value.addAll(selected)
             }
-            AlertBox(showDialog = showDialogue.value,
-                onDialogDismiss = {
-                                  //do nothing
-                                  showDialogue.value=false
-                }, onSaveNote = {
-                    saveData(listOfItems, title, viewModel, it)
-                    showDialogue.value=false
+
+            AlertBox(showDialog = showDialogue.value, onDialogDismiss = {
+                //do nothing
+                showDialogue.value = false
+            }, onSaveNote = {
+                saveData(listOfItems, title, viewModel, it)
+                showDialogue.value = false
             }, noteText = text)
+
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
                 if (listOfItems != null) {
                     items(listOfItems.chunked(2)) { rowItems ->
                         Row(
@@ -120,7 +120,6 @@ fun ActivityItemScreen(
                             rowItems.forEach { item ->
                                 // Display your item composable here
                                 Timber.tag("seleleel").d(viewModel.checkSelected(item).toString())
-
                                 val selected = remember {
                                     mutableStateOf(viewModel.checkSelected(item))
                                 }
@@ -137,11 +136,10 @@ fun ActivityItemScreen(
                             }
                         }
                     }
-                }else{
-                    item{
+                } else {
+                    item {
                         Text(text = "")
                     }
-
                 }
                 item {
                     Card(
@@ -149,26 +147,22 @@ fun ActivityItemScreen(
                         modifier = Modifier.padding(12.dp),
                         backgroundColor = MaterialTheme.colors.secondary
                     ) {
-                        Text(text = "Add more",
-                            modifier = Modifier
-                                .clickableWithoutRipple {
-                                    showDialogue.value = true
-                                }
-                                .padding(6.dp),
-                            style = TextStyle(
-                                textAlign = TextAlign.Center,
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Bold
-                            ))
+                        Text(text = "Add more", modifier = Modifier
+                            .clickableWithoutRipple {
+                                showDialogue.value = true
+                            }
+                            .padding(6.dp), style = TextStyle(
+                            textAlign = TextAlign.Center,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold
+                        ))
                     }
-
                 }
             }
             Button(
                 onClick = {
                     Timber.tag("selectedValiue").d(title.toString())
                     viewModel.selectedItems(list = selectedItems.value, title ?: "")
-
                 },
                 shape = RoundedCornerShape(40.dp),
                 colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
@@ -186,10 +180,7 @@ fun ActivityItemScreen(
 }
 
 private fun saveData(
-    listOfItems: List<String>?,
-    title: String?,
-    viewModel: MoodTrackingViewModel,
-    it: String
+    listOfItems: List<String>?, title: String?, viewModel: MoodTrackingViewModel, it: String
 ) {
     if (listOfItems.isNullOrEmpty()) {
         if (title != null) {
@@ -205,6 +196,5 @@ private fun saveData(
                 }
             }
         }
-
     }
 }

@@ -8,6 +8,7 @@ import com.example.emoease.roomDb.ActivityModal
 import com.example.emoease.roomDb.EmotionModal
 import com.example.emoease.utils.stringToList
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -33,6 +34,23 @@ class MoodTrackingViewModel @Inject constructor(private val repository: MoodTrac
         _activityItems.value=ApiResult.Loading
         viewModelScope.launch{
            _activityItems.value= repository.getActivityItems(title)
+        }
+    }
+    private val _emotionHistory=MutableLiveData<ApiResult<List<EmotionModal>>>()
+    val emotionHistory : MutableLiveData<ApiResult<List<EmotionModal>>>
+        get()=_emotionHistory
+    fun getEmotionHistory(){
+        viewModelScope.launch {
+            _emotionHistory.value=ApiResult.Loading
+            delay(2000)
+            _emotionHistory.value=repository.getEmotionHistory()
+        }
+    }
+    fun getListByMood(mood: Int){
+        viewModelScope.launch {
+            _emotionHistory.value=ApiResult.Loading
+            delay(100)
+            _emotionHistory.value=repository.getListByMood(mood)
         }
     }
     fun saveActivityItem(title: String,item:String){

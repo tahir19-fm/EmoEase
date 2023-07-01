@@ -47,12 +47,12 @@ fun BottomNavGraph(
                     viewModel.saveMood(it)
                 },padding=padding,viewModel=viewModel,navController=navController)
 
-
         }
         composable(BottomBarScreen.Account.route){
         }
         composable(BottomBarScreen.History.route){
-            MoodHistoryScreen()
+
+            MoodHistoryScreen(viewModel=viewModel,navController=navController,padding=padding)
         }
         composable(BottomBarScreen.Exercise.route){
             ExerciseScreen()

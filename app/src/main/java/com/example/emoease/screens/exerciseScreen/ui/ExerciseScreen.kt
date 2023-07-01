@@ -36,7 +36,6 @@ fun ExerciseScreen() {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             items(listOfExercise) { rowItems ->
-
                 ExerciseItemCard(
                     name = rowItems.name, url = rowItems.icon
                 )
@@ -47,7 +46,7 @@ fun ExerciseScreen() {
 }
 
 @Composable
-fun AppHeader() {
+fun AppHeader(text:String="Exercises") {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -60,7 +59,7 @@ fun AppHeader() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Exercises",
+                text =text ,
                 style = TextStyle(
                     fontSize = 34.sp,
                     fontFamily = FontFamEmo.quicksand_bold,
