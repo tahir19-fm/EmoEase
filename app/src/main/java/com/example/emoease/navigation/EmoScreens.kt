@@ -9,6 +9,7 @@ object Graph{
     const val Account = "account_graph"
     const val Bottom = "bottom_graph"
     const val Splash="splash_graph"
+    const val Exercise="exercise_graph"
 }
 
 sealed class MoodScreens(val route:String){
@@ -22,4 +23,7 @@ sealed class AuthScreens(val route: String){
 }
 sealed class SplashScreens(val route: String){
     object SplashScreen:SplashScreens("splash_screen")
+}
+sealed class ExerciseScreens(val route: String){
+    object ExerciseDetailScreen:ExerciseScreens("exercise_detail_screen")
 }

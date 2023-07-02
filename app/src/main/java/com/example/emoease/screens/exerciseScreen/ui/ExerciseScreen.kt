@@ -1,5 +1,6 @@
 package com.example.emoease.screens.exerciseScreen.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,13 +23,16 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import com.example.emoease.navigation.ExerciseScreens
 import com.example.emoease.screens.AnimatedLottieUrl
+import com.example.emoease.screens.exerciseScreen.util.Exercise
 import com.example.emoease.screens.exerciseScreen.util.listOfExercise
 import com.example.emoease.utils.FontFamEmo
 import com.example.emoease.utils.clickableWithoutRipple
 
 @Composable
-fun ExerciseScreen() {
+fun ExerciseScreen(navController: NavHostController) {
     Column {
         AppHeader()
         LazyColumn(
@@ -38,7 +42,10 @@ fun ExerciseScreen() {
             items(listOfExercise) { rowItems ->
                 ExerciseItemCard(
                     name = rowItems.name, url = rowItems.icon
-                )
+                ){
+                    val index= listOfExercise.indexOf(rowItems)
+                    navController.navigate(ExerciseScreens.ExerciseDetailScreen.route+"/$index")
+                }
 
             }
         }
@@ -71,7 +78,7 @@ fun AppHeader(text:String="Exercises") {
 }
 
 @Composable
-fun ExerciseItemCard(name: String, url: String) {
+fun ExerciseItemCard(name: String, url: String,onClick:()->Unit) {
     Card(
         modifier = Modifier
             .padding(16.dp)
@@ -85,7 +92,7 @@ fun ExerciseItemCard(name: String, url: String) {
             modifier = Modifier
                 .padding(4.dp)
                 .clickableWithoutRipple {
-
+                onClick.invoke()
                 }, horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Card(

@@ -1,7 +1,9 @@
 package com.example.emoease.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -11,9 +13,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import com.example.emoease.screens.accountScreen.ui.AccountProfileScreen
+import com.example.emoease.screens.accountScreen.ui.AccountScreen
 import com.example.emoease.screens.moodTrackingScreen.util.MoodTrackingViewModel
 import com.example.emoease.screens.bottomBar.BottomBarScreen
 import com.example.emoease.screens.bottomBar.MainScreen
+import com.example.emoease.screens.exerciseScreen.ui.ExerciseDescriptionScreen
 import com.example.emoease.screens.exerciseScreen.ui.ExerciseScreen
 import com.example.emoease.screens.moodTrackingScreen.ui.ActivityItemScreen
 import com.example.emoease.screens.moodTrackingScreen.ui.MoodHistoryScreen
@@ -26,7 +31,6 @@ import com.example.emoease.screens.moodTrackingScreen.ui.MoodTrackingScreen
 fun RootNavGraph(navController: NavHostController= rememberNavController()){
     NavHost(navController = navController, route = Graph.Root, startDestination = Graph.Bottom){
         composable(SplashScreens.SplashScreen.route){
-
         }
         authNavGraph(navController)
         composable(Graph.Bottom){
@@ -49,17 +53,37 @@ fun BottomNavGraph(
 
         }
         composable(BottomBarScreen.Account.route){
+            AccountProfileScreen(navController = navController, padding = padding)
         }
         composable(BottomBarScreen.History.route){
 
             MoodHistoryScreen(viewModel=viewModel,navController=navController,padding=padding)
         }
         composable(BottomBarScreen.Exercise.route){
-            ExerciseScreen()
+            ExerciseScreen(navController)
         }
         moodNavGraph(navController,padding,viewModel)
+        exerciseNavGraph(navController)
 
 
+    }
+}
+
+fun NavGraphBuilder.exerciseNavGraph(navController: NavHostController) {
+
+    navigation(route=Graph.Exercise, startDestination = ExerciseScreens.ExerciseDetailScreen.route){
+        composable(ExerciseScreens.ExerciseDetailScreen.route+"/{index}", arguments = listOf(
+            navArgument(name = "index"){
+                type= NavType.IntType
+            }
+        )){
+                navBack->
+            navBack.arguments?.getInt("index").let { index ->
+                if (index != null) {
+                    ExerciseDescriptionScreen(exerciseIndex =index)
+                }
+            }
+        }
     }
 }
 

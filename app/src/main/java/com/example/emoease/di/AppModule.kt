@@ -27,7 +27,7 @@ object AppModule {
     @Provides
     fun providesCommonApiService(): CommonApiService {
         return Retrofit.Builder()
-            .baseUrl("")
+            .baseUrl("https://yoga-api-nzy4.onrender.com")
             .client(OkHttpClientHelper().getOkHttpClient())
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
