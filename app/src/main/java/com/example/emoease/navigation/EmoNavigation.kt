@@ -23,8 +23,7 @@ import com.example.emoease.screens.exerciseScreen.ui.ExerciseScreen
 import com.example.emoease.screens.moodTrackingScreen.ui.ActivityItemScreen
 import com.example.emoease.screens.moodTrackingScreen.ui.MoodHistoryScreen
 import com.example.emoease.screens.moodTrackingScreen.ui.MoodTrackingScreen
-
-
+import com.example.emoease.screens.splashScreen.ui.AppIntroScreen
 
 
 @Composable
@@ -61,6 +60,9 @@ fun BottomNavGraph(
         }
         composable(BottomBarScreen.Exercise.route){
             ExerciseScreen(navController)
+        }
+        composable(BottomBarScreen.Reminder.route){
+            AppIntroScreen()
         }
         moodNavGraph(navController,padding,viewModel)
         exerciseNavGraph(navController)

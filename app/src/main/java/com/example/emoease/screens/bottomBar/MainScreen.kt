@@ -1,90 +1,96 @@
 package com.example.emoease.screens.bottomBar
 
- import android.annotation.SuppressLint
- import android.util.Log
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
- import androidx.compose.foundation.ExperimentalFoundationApi
- import androidx.compose.foundation.background
- import androidx.compose.material.*
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.material.*
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
- import androidx.compose.ui.Modifier
- import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
- import androidx.compose.ui.text.TextStyle
- import androidx.compose.ui.unit.sp
- import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
- import androidx.navigation.compose.rememberNavController
- import com.example.emoease.navigation.BottomNavGraph
- import com.example.emoease.screens.HorizontalSlideAnimation
- import com.example.emoease.utils.FontFamEmo
+import androidx.navigation.compose.rememberNavController
+import com.example.emoease.navigation.BottomNavGraph
+import com.example.emoease.screens.HorizontalSlideAnimation
+import com.example.emoease.utils.FontFamEmo
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun MainScreen(navController: NavHostController = rememberNavController()){
+fun MainScreen(navController: NavHostController = rememberNavController()) {
     val bottomBarState = rememberSaveable { (mutableStateOf(true)) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     when (navBackStackEntry?.destination?.route) {
-        BottomBarScreen.Home.route->{
+        BottomBarScreen.Home.route -> {
+            bottomBarState.value = true
+        }
+
+        BottomBarScreen.History.route -> {
+            bottomBarState.value = true
+        }
+
+        BottomBarScreen.Account.route -> {
+            bottomBarState.value = true
+        }
+
+        BottomBarScreen.Exercise.route -> {
+            bottomBarState.value = true
+        }
+        BottomBarScreen.Reminder.route->{
             bottomBarState.value=true
         }
-        BottomBarScreen.History.route->{
-            bottomBarState.value=true
-        }
-        BottomBarScreen.Account.route->{
-            bottomBarState.value=true
-        }
-        BottomBarScreen.Exercise.route->{
-            bottomBarState.value=true
-        }
-        else->{
-            bottomBarState.value=false
+
+        else -> {
+            bottomBarState.value = false
         }
     }
-    Scaffold( bottomBar = {
+    Scaffold(bottomBar = {
         BottomBar(
-            navController = navController,
-            bottomBarState=bottomBarState
+            navController = navController, bottomBarState = bottomBarState
         )
     }) {
-        BottomNavGraph(navController = navController
-            ,padding=it)
+        BottomNavGraph(
+            navController = navController, padding = it
+        )
     }
-
 
 
 }
 
 @Composable
-fun BottomBar(navController: NavHostController, bottomBarState: MutableState<Boolean>){
+fun BottomBar(navController: NavHostController, bottomBarState: MutableState<Boolean>) {
     val screens = listOf(
         BottomBarScreen.Home,
         BottomBarScreen.History,
+        BottomBarScreen.Reminder,
         BottomBarScreen.Exercise,
         BottomBarScreen.Account
 
     )
 
 
-    AnimatedVisibility(
-        visible = bottomBarState.value,
+    AnimatedVisibility(visible = bottomBarState.value,
         enter = slideInVertically(initialOffsetY = { it }),
         exit = slideOutVertically(targetOffsetY = { it }),
         content = {
-          BottomBarScreenContent(navController = navController, bottomBarState = bottomBarState,screens=screens)
+            BottomBarScreenContent(
+                navController = navController, bottomBarState = bottomBarState, screens = screens
+            )
         })
-    }
-
-
+}
 
 
 private object NoRippleTheme : RippleTheme {
@@ -92,7 +98,8 @@ private object NoRippleTheme : RippleTheme {
     override fun defaultColor() = Color.Unspecified
 
     @Composable
-    override fun rippleAlpha(): RippleAlpha = RippleAlpha(0.0f,0.0f,0.0f,0.0f)
+    override fun rippleAlpha(): RippleAlpha = RippleAlpha(0.0f, 0.0f,
+        0.0f, 0.0f)
 }
 
 @Composable
@@ -100,7 +107,7 @@ fun BottomBarScreenContent(
     navController: NavHostController,
     bottomBarState: MutableState<Boolean>,
     screens: List<BottomBarScreen>
-){
+) {
 
     CompositionLocalProvider(LocalRippleTheme provides NoRippleTheme) {
         BottomNavigation(
@@ -115,8 +122,7 @@ fun BottomBarScreenContent(
                     currentDestination?.hierarchy?.any { it.route == menuItem.route } == true
 
                 // adding each item
-                BottomNavigationItem(
-                    selected = (selected),
+                BottomNavigationItem(selected = (selected),
                     onClick = {
                         if (selected) return@BottomNavigationItem
                         navController.navigate(menuItem.route) {
@@ -134,7 +140,12 @@ fun BottomBarScreenContent(
                         )
                     },
                     label = {
-                        Text(text = menuItem.title, style = TextStyle(fontFamily =if(selected) FontFamEmo.quicksand_medium else FontFamEmo.quicksand_regular, fontSize = 14.sp))
+                        Text(
+                            text = menuItem.title, style = TextStyle(
+                                fontFamily = if (selected) FontFamEmo.quicksand_medium
+                                else FontFamEmo.quicksand_regular, fontSize = 14.sp
+                            )
+                        )
                     },
                     enabled = true,
                     modifier = Modifier.background(MaterialTheme.colors.surface),

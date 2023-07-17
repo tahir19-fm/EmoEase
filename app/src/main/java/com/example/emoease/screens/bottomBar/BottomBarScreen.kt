@@ -11,6 +11,7 @@ sealed class BottomBarScreen(
 ){
     object Home : BottomBarScreen(route = "home" , "Home", R.drawable.face_smile_solid,R.drawable.face_smile_outline)
     object History : BottomBarScreen(route = "history" , "Activity" ,R.drawable.solid_clock,R.drawable.outline_clock)
+    object Reminder : BottomBarScreen(route = "reminder" , "Reminder" ,R.drawable.reminder_solid,R.drawable.reminder_outline)
     object Account : BottomBarScreen(route = "account", "Account" ,R.drawable.solid_user,R.drawable.outlined_user)
     object Exercise : BottomBarScreen(route = "exercise", "Exercise" ,R.drawable.exercise_filled,R.drawable.outline_exercise)
 }
