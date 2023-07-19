@@ -15,13 +15,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MoodTrackingViewModel @Inject constructor(private val repository: MoodTrackingRepository) :ViewModel() {
-    init {
-
-        viewModelScope.launch {
-            repository.saveActivityItem(ActivityModal(Constants.Symptoms, emptyList()))
-        }
-
-    }
     fun saveMood(emotionModal: EmotionModal){
        viewModelScope.launch {
            repository.saveMood(emotionModal)
@@ -42,14 +35,12 @@ class MoodTrackingViewModel @Inject constructor(private val repository: MoodTrac
     fun getEmotionHistory(){
         viewModelScope.launch {
             _emotionHistory.value=ApiResult.Loading
-            delay(2000)
             _emotionHistory.value=repository.getEmotionHistory()
         }
     }
     fun getListByMood(mood: Int){
         viewModelScope.launch {
             _emotionHistory.value=ApiResult.Loading
-            delay(100)
             _emotionHistory.value=repository.getListByMood(mood)
         }
     }

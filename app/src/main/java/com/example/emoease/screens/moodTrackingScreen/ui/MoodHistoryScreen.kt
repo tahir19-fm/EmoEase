@@ -89,8 +89,8 @@ private fun HistoryColumn(
         }
         //lazy column
         if (loading.value) {
-            AnimatedLottie(animationRes = R.raw.loading_emoji,
-                modifier = Modifier.size(100.dp))
+            AnimatedLottie(animationRes = R.raw.loading,
+                modifier = Modifier.fillMaxSize())
         } else {
             val list = viewModel.emotionHistory.value?.data
             if (!list.isNullOrEmpty()) {
