@@ -62,8 +62,11 @@ fun MoodHistoryScreen(
     val showSnackBar = remember {
         mutableStateOf(false)
     }
-
-    Surface(modifier = Modifier.fillMaxSize()
+    LaunchedEffect(viewModel) {
+        viewModel.getEmotionHistory()
+    }
+    Surface(modifier = Modifier
+        .fillMaxSize()
         .padding(padding)) {
         DataObserver(viewModel, loading, showSnackBar)
         HistoryColumn(viewModel, loading,navController)
@@ -84,9 +87,11 @@ private fun HistoryColumn(
         //header(search and sort options)
         AppHeader(text = "History")
         //filterBy
-        FilterBy {
-            viewModel.getListByMood(it)
+        FilterBy(onClick = {viewModel.getListByMood(it)}){
+            viewModel.getEmotionHistory()
         }
+
+
         //lazy column
         if (loading.value) {
             AnimatedLottie(animationRes = R.raw.loading,
@@ -116,9 +121,6 @@ private fun DataObserver(
     showSnackBar: MutableState<Boolean>
 ) {
     val context = LocalContext.current
-    LaunchedEffect(viewModel) {
-        viewModel.getEmotionHistory()
-    }
     when (val d = viewModel.emotionHistory.observeAsState().value) {
         ApiResult.Loading -> {
             //show loading screen
@@ -128,7 +130,6 @@ private fun DataObserver(
         is ApiResult.Success -> {
             loading.value = false
             Timber.tag(tag).d(d.data.toString())
-            Toast.makeText(context, d.data.toString(), Toast.LENGTH_LONG).show()
         }
 
         is ApiResult.Error -> {
@@ -136,6 +137,10 @@ private fun DataObserver(
             loading.value = false
             Timber.tag(tag).e(d.message)
             showSnackBar.value = true
+            Column(modifier =Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center) {
+                AnimatedLottie(animationRes = R.raw.no_data)
+            }
             CustomSnackBar(text = d.message.toString(), showSnackBar = showSnackBar)
         }
 
@@ -152,7 +157,7 @@ fun EmotionItemCard(animatedRes: Int, date: String,onClick: (String) -> Unit) {
             .fillMaxWidth()
             .padding(12.dp)
             .clickableWithoutRipple {
-                  onClick.invoke(date)
+                onClick.invoke(date)
             },
         backgroundColor = MaterialTheme.colors.secondary,
         elevation = 4.dp,
@@ -185,7 +190,7 @@ fun EmotionItemCard(animatedRes: Int, date: String,onClick: (String) -> Unit) {
 }
 
 @Composable
-fun FilterBy(onClick: (Int) -> Unit) {
+fun FilterBy(onClick: (Int) -> Unit,onClickClose: () -> Unit={}) {
     val list = listOfMoods
     val expanded = remember {
         mutableStateOf(false)
@@ -213,6 +218,9 @@ fun FilterBy(onClick: (Int) -> Unit) {
             contentDescription = null,
             modifier = Modifier.clickable {
                 expanded.value = !expanded.value
+                if (!expanded.value){
+                    onClickClose.invoke()
+                }
             })
         LazyRow(
             modifier = Modifier.fillMaxWidth(),

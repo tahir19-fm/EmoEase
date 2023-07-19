@@ -322,7 +322,7 @@ fun AlertBox(
             }
         }, dismissButton = {
             Button(onClick = {
-
+            onDialogDismiss()
             }) {
                 Text(text = "Cancel")
             }

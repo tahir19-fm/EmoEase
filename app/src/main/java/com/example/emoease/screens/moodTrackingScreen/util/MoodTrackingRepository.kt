@@ -96,4 +96,11 @@ class MoodTrackingRepository @Inject constructor(private val roomDatabase: AppDa
         }
         return ApiResult.Error("No data found")
     }
+
+    suspend fun dataExists(id: String):ApiResult<Boolean>{
+        return ApiResult.Success(roomDatabase.existsById(id))
+    }
+    suspend fun updateNotes(newNotes:String,id: String){
+        return roomDatabase.updateNotes(newNote = newNotes, id = id)
+    }
 }

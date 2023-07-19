@@ -1,5 +1,6 @@
 package com.example.emoease.screens.moodTrackingScreen.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -40,6 +41,7 @@ import com.example.emoease.utils.FontFamEmo
 import com.example.emoease.utils.clickableWithoutRipple
 import timber.log.Timber
 
+@SuppressLint("MutableCollectionMutableState")
 @Composable
 fun ActivityItemScreen(
     paddingValues: PaddingValues, viewModel: MoodTrackingViewModel, title: String?
@@ -101,7 +103,9 @@ fun ActivityItemScreen(
                 //do nothing
                 showDialogue.value = false
             }, onSaveNote = {
-                saveData(listOfItems, title, viewModel, it)
+                if (it.isNotEmpty()) {
+                    saveData(listOfItems, title, viewModel, it)
+                }
                 showDialogue.value = false
             }, noteText = text)
 
@@ -110,7 +114,8 @@ fun ActivityItemScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 if (listOfItems != null) {
-                    items(listOfItems.chunked(2)) { rowItems ->
+                   val itemsList=listOfItems.filter { it.isNotEmpty()&&it.length>1 }
+                    items(itemsList.chunked(2)) { rowItems ->
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -162,7 +167,8 @@ fun ActivityItemScreen(
             Button(
                 onClick = {
                     Timber.tag("selectedValiue").d(title.toString())
-                    viewModel.selectedItems(list = selectedItems.value, title ?: "")
+                    val selectedList=selectedItems.value.filter { it.isNotEmpty()&&it.length>2 }
+                    viewModel.selectedItems(list = selectedList, title ?: "")
                 },
                 shape = RoundedCornerShape(40.dp),
                 colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),

@@ -1,6 +1,7 @@
 package com.example.emoease.screens.moodTrackingScreen.ui
 
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.dp
@@ -8,7 +9,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -21,23 +21,24 @@ import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.SportsTennis
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.emoease.R
 import com.example.emoease.navigation.MoodScreens
 import com.example.emoease.networkService.ApiResult
 import com.example.emoease.roomDb.EmotionModal
+import com.example.emoease.screens.AnimatedLottie
 import com.example.emoease.screens.HorizontalSlideAnimation
 import com.example.emoease.screens.moodTrackingScreen.util.Constants
 import com.example.emoease.screens.moodTrackingScreen.util.MoodTrackingViewModel
-import com.example.emoease.screens.moodTrackingScreen.util.listOfActivities
-import com.example.emoease.screens.moodTrackingScreen.util.listOfSleep
-import com.example.emoease.screens.moodTrackingScreen.util.listOfSocial
 import com.example.emoease.screens.moodTrackingScreen.util.todayDate
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
+import com.example.emoease.utils.FontFamEmo
 
 @Composable
 fun MoodTrackingScreen(
@@ -62,11 +63,13 @@ fun MoodTrackingScreen(
     val noteText = remember {
         mutableStateOf("")
     }
+    val dbNoteValue= remember {
+        mutableStateOf("")
+    }
     val showAlertBox = remember {
         mutableStateOf(false)
     }
     //TODO: if the date is not in db add new option to start insertion of new date into db
-
 
     //observing mood data
     when (val value = viewModel.mood.observeAsState().value) {
@@ -85,6 +88,7 @@ fun MoodTrackingScreen(
     val formattedDate = todayDate()
     //making call to collect data from db
     LaunchedEffect(viewModel) {
+        viewModel.checkIfExists()
         viewModel.getMood(formattedDate)
         viewModel.getEmotionDetails(formattedDate)
     }
@@ -102,6 +106,7 @@ fun MoodTrackingScreen(
                 activities = data.activities
                 social = data.social
                 sleep = data.sleep
+                dbNoteValue.value=data.myNote
                 symptoms = data.symptoms
             }
             loading.value = false
@@ -114,6 +119,94 @@ fun MoodTrackingScreen(
 
         else -> {}
     }
+    when(val it=viewModel.exists.observeAsState().value){
+        ApiResult.Loading->{
+            AnimatedLottie(animationRes = R.raw.loading)
+        }
+        is ApiResult.Success->{
+            if (it.data == false) SetNewMoodDetails {
+                onSaveMood.invoke(
+                    EmotionModal(
+                        id = formattedDate,
+                        mood = currMood.value,
+                        activities = emptyList(),
+                        social = emptyList(),
+                        sleep = emptyList(),
+                        symptoms = emptyList(),
+                        myNote = noteText.value
+                    )
+                )
+            }
+            else {
+                SetMoodContent(
+                    scrollState,
+                    padding,
+                    currMood,
+                    viewModel,
+                    formattedDate,
+                    activities,
+                    navController,
+                    social,
+                    sleep,
+                    symptoms,
+                    showAlertBox,
+                    noteText,
+                    dbNoteValue
+                )
+            }
+        }
+
+        else -> {
+
+        }
+    }
+
+}
+
+@Composable
+fun SetNewMoodDetails(onClick: () -> Unit) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "No data for today",
+            style = TextStyle(
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamEmo.quicksand_bold,
+                fontSize = 28.sp
+            ),
+            modifier = Modifier.padding(16.dp)
+        )
+        Button(onClick = {
+            onClick.invoke()
+        }) {
+            Text(text = "Create",  style = TextStyle(
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamEmo.quicksand_bold,
+                fontSize = 28.sp
+            ) )
+        }
+    }
+}
+
+@Composable
+private fun SetMoodContent(
+    scrollState: ScrollState,
+    padding: PaddingValues,
+    currMood: MutableState<Int>,
+    viewModel: MoodTrackingViewModel,
+    formattedDate: String,
+    activities: List<String>,
+    navController: NavHostController,
+    social: List<String>,
+    sleep: List<String>,
+    symptoms: List<String>,
+    showAlertBox: MutableState<Boolean>,
+    noteText: MutableState<String>,
+    dbNoteValue: MutableState<String>
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -133,53 +226,41 @@ fun MoodTrackingScreen(
         ActivityCard(
             title = Constants.Activities, icon = Icons.Default.SportsTennis, itemList = activities
         ) {
-            viewModel.selectedItems(activities,Constants.Activities)
+            viewModel.selectedItems(activities, Constants.Activities)
             navController.navigate(MoodScreens.ActivitySelectScreen.route + "/$it")
         }
         ActivityCard(
             title = Constants.Social, icon = Icons.Default.Group, itemList = social
         ) {
-            viewModel.selectedItems(social,Constants.Social)
+            viewModel.selectedItems(social, Constants.Social)
             navController.navigate(MoodScreens.ActivitySelectScreen.route + "/$it")
         }
         ActivityCard(
             title = Constants.Sleep, icon = Icons.Default.Bed, itemList = sleep
         ) {
-            viewModel.selectedItems(sleep,Constants.Sleep)
+            viewModel.selectedItems(sleep, Constants.Sleep)
             navController.navigate(MoodScreens.ActivitySelectScreen.route + "/$it")
         }
         ActivityCard(
             title = Constants.Symptoms, icon = Icons.Default.Face, itemList = symptoms
         ) {
-            viewModel.selectedItems(symptoms,Constants.Symptoms)
+            viewModel.selectedItems(symptoms, Constants.Symptoms)
             navController.navigate(MoodScreens.ActivitySelectScreen.route + "/$it")
         }
         MyNotes(showAlertBox, noteText)
+
         AlertBox(
             showDialog = showAlertBox.value,
-            onDialogDismiss = { showAlertBox.value = !showAlertBox.value },
-            onSaveNote = { showAlertBox.value = !showAlertBox.value },
+            onDialogDismiss = {
+                showAlertBox.value = !showAlertBox.value
+                noteText.value=dbNoteValue.value
+                              },
+            onSaveNote = { showAlertBox.value = !showAlertBox.value
+                viewModel.updateNotes(it, formattedDate)
+                dbNoteValue.value=it
+                         },
             noteText = noteText
         )
-        Button(
-            onClick = {
-                onSaveMood.invoke(
-                    EmotionModal(
-                        id = formattedDate,
-                        mood = currMood.value,
-                        activities = listOfActivities,
-                        social = listOfSocial,
-                        sleep = listOfSleep,
-                        symptoms = emptyList(),
-                        myNote = noteText.value
-                    )
-                )
-            }, modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp)
-        ) {
-            Text(text = "Save")
-        }
     }
 }
 

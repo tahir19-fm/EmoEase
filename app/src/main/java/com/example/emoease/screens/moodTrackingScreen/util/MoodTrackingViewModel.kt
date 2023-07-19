@@ -1,5 +1,6 @@
 package com.example.emoease.screens.moodTrackingScreen.util
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,6 +19,8 @@ class MoodTrackingViewModel @Inject constructor(private val repository: MoodTrac
     fun saveMood(emotionModal: EmotionModal){
        viewModelScope.launch {
            repository.saveMood(emotionModal)
+       }.invokeOnCompletion {
+           checkIfExists()
        }
     }
     private val _activityItems = MutableLiveData<ApiResult<ActivityModal>>()
@@ -35,12 +38,14 @@ class MoodTrackingViewModel @Inject constructor(private val repository: MoodTrac
     fun getEmotionHistory(){
         viewModelScope.launch {
             _emotionHistory.value=ApiResult.Loading
+            delay(100)
             _emotionHistory.value=repository.getEmotionHistory()
         }
     }
     fun getListByMood(mood: Int){
         viewModelScope.launch {
             _emotionHistory.value=ApiResult.Loading
+            delay(100)
             _emotionHistory.value=repository.getListByMood(mood)
         }
     }
@@ -160,6 +165,23 @@ class MoodTrackingViewModel @Inject constructor(private val repository: MoodTrac
             return true
         }
         return false
+    }
+
+
+    private val _exists = MutableLiveData<ApiResult<Boolean>>()
+    val exists : MutableLiveData<ApiResult<Boolean>>
+        get() = _exists
+    fun checkIfExists(){
+        viewModelScope.launch {
+            exists.value=ApiResult.Loading
+            exists.value=repository.dataExists(todayDate())
+            Timber.tag("DataAvailAble").d(exists.value.toString())
+        }
+    }
+    fun updateNotes(newNotes:String,id: String){
+        viewModelScope.launch {
+            repository.updateNotes(newNotes,id)
+        }
     }
 
 

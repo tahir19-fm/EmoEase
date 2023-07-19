@@ -79,4 +79,8 @@ interface AppDatabaseDao {
     @Query("UPDATE activity_table SET items = :newValue WHERE activities = :itemId")
     suspend fun updateActivityColumnValue(itemId: String, newValue: List<String>)
 
+    //check if todays date data exits
+    @Query("SELECT EXISTS(SELECT 1 FROM emotion_tbl WHERE id = :id)")
+    suspend fun existsById(id: String): Boolean
+
 }
