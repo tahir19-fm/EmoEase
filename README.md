@@ -55,7 +55,22 @@
 
 - Emotional and mental health are essential aspects of overall well-being and play a significant role in how we think, feel, and interact with the world around us.The key aspects to the emotional and mental health are self-Awareness , emotional regulation , stress Management, coping Strategies and much more. Good emotional and mental health helps us in improving physical health , enhances prodyctivity , enhanced self-esteem and much more. 
 
--A SAAS for promoting mental and emotional health by allowing users to log and track their emotions and moods, our project helps promote emotional awareness and self-reflection. Users can gain insights into their emotional patterns and triggers, which can be helpful for managing stress and improving overall emotional well-being.Our project offers a variety of stress management techniques, such as guided meditation sessions, breathing exercises, and progressive muscle relaxation. These tools can aid users in reducing stress and anxiety, fostering a calmer and more centered state of mind.The ability to set timely notification reminders can serve as gentle prompts for users to engage in self-care practices, meditation, or relaxation exercises regularly.
+- A SAAS for promoting mental and emotional health by allowing users to log and track their emotions and moods, our project helps promote emotional awareness and self-reflection. Users can gain insights into their emotional patterns and triggers, which can be helpful for managing stress and improving overall emotional well-being.Our project offers a variety of stress management techniques, such as guided meditation sessions, breathing exercises, and progressive muscle relaxation. These tools can aid users in reducing stress and anxiety, fostering a calmer and more centered state of mind.The ability to set timely notification reminders can serve as gentle prompts for users to engage in self-care practices, meditation, or relaxation exercises regularly.
+
+---
+
+### Output Sanpshots
+
+|                                                                              Landing Page                                                                      |                                                      Mood Track Screen                                             |                                        Mood History Screen                                                      |                            
+| :------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------: |
+|         <img src="https://github.com/tahir19-fm/Tech-Gala/assets/102905297/5d53bf63-5962-4298-8637-1fde4c4ea804" height="600" width="300"/>    |      <img src="https://github.com/tahir19-fm/Tech-Gala/assets/102905297/23941e23-9230-4ff9-9a81-933b74b80339" height="600" width="300"/>|        <img src="https://github.com/tahir19-fm/Tech-Gala/assets/102905297/8a07b959-8467-4908-8abf-e0be93fb6f5d" height="600" width="300"/>| 
+
+
+
+|                                                                           Mood History Detail Screen                                                                     |                                                      Reminder Screen                                             |                                        Exercises Screen                                                      |                            
+| :------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------: |
+|         <img src="https://github.com/tahir19-fm/Tech-Gala/assets/102905297/eb61cba7-e530-40e6-8821-e62bbb6209c4" height="600" width="300"/>    |      <img src="https://github.com/tahir19-fm/Tech-Gala/assets/102905297/aeb61f68-75c9-43d7-a94e-cb3328c0f2b4" height="600" width="300"/>|        <img src="https://github.com/tahir19-fm/Tech-Gala/assets/102905297/5825481e-fff1-4907-a916-afbfc8ce6f45" height="600" width="300"/>| 
+
 
 ---
 
