@@ -29,8 +29,6 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
-        <li><a href="#demonstration">Demonstration</a></li>
-        <li><a href="#user-journey">User Journey</a></li>
         <li><a href="#output-sanpshots">Output Snapshots</a></li>
            <li><a href="#built-with">Built With</a></li>
       </ul>
@@ -40,14 +38,11 @@
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
-        <li><a href="#setting-up-frontend">Setting up Frontend</a></li>
-        <li><a href="#setting-up-backend">Setting up Backend</a></li>
       </ul>
     </li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
   </ol>
 </details>
 
@@ -115,13 +110,27 @@ Install [Android Studio](https://developer.android.com/studio)
 - [ ] Feature to add and connect with doctors and get appoinments.
 - [ ] Enhancing the login page
 - [ ] Add feature to reminder screen.
-- [ ] Add chat feature for diffrent users.
+- [ ] Add chat feature for users.
 - [ ] Add option to upload photo and video while mood recording.
 - [ ] Improve exercise features and add timings and musics during exercise.
 - [ ] Improve Account section and add multiple languages.
 - [ ] Write Unit Test
 
+## Contributing
 
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+Refer to this [article](https://medium.com/geekculture/a-quick-guide-to-create-a-pull-request-on-github-80fc081b8a80) if you have any difficulty in making pull request
    
+# Contact
+
+Tahir Majid - tahir19.fm@gmail.com , [Linkedin](https://www.linkedin.com/in/tahir-majid-213a2222a/)
+
 
 
