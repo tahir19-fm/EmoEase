@@ -72,7 +72,56 @@
 |         <img src="https://github.com/tahir19-fm/Tech-Gala/assets/102905297/eb61cba7-e530-40e6-8821-e62bbb6209c4" height="600" width="300"/>    |      <img src="https://github.com/tahir19-fm/Tech-Gala/assets/102905297/aeb61f68-75c9-43d7-a94e-cb3328c0f2b4" height="600" width="300"/>|        <img src="https://github.com/tahir19-fm/Tech-Gala/assets/102905297/5825481e-fff1-4907-a916-afbfc8ce6f45" height="600" width="300"/>| 
 
 
+|                                                                           Exercise Detail Screen                                                                     |                                                      Account Screen                                                                      
+| :------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------: |
+|         <img src="https://github.com/tahir19-fm/Tech-Gala/assets/102905297/36b3a211-9ffc-4bd3-98bb-38197aaa5a4b" height="600" width="300"/>    |      <img src="https://github.com/tahir19-fm/Tech-Gala/assets/102905297/a473528a-b4e1-48df-847c-e1966404d5d9" height="600" width="300"/>| 
+
+
 ---
 
+### Built With
+
+- [Jetpack Compose](https://developer.android.com/jetpack/compose)
+
+
+    Written in Kotlin ♥
+
+## Getting Started
+
+Follow the instructions to set up the project on your local machine.
+
+### Prerequisites
+
+Install [Android Studio](https://developer.android.com/studio)
+
+### Installation
+
+1. Fork the repo(required), a star is also appretiated but optional :P
+
+2. Clone the forked repo
+
+   ```sh
+   git clone https://github.com/{your-github-username}/EmoEase
+   ```
+
+   example : `git clone https://github.com/tahir19-fm/EmoEase`
+
+3. Download an emulator or connect a real device
+   
+4. Build the project using build and run
+
+### Future Goals
+
+- [ ] Feature to add and connect with doctors and get appoinments.
+- [ ] Enhancing the login page
+- [ ] Add feature to reminder screen.
+- [ ] Add chat feature for diffrent users.
+- [ ] Add option to upload photo and video while mood recording.
+- [ ] Improve exercise features and add timings and musics during exercise.
+- [ ] Improve Account section and add multiple languages.
+- [ ] Write Unit Test
+
+
+   
 
 
