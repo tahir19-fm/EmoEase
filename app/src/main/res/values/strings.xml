@@ -5,5 +5,28 @@
     <string name="create_acct"> Please enter a valid email and password that is at least 6 characters</string>
     <string name="sign_in_with_google">sign in with google?</string>
     <string name="click_to_add_Note">Please click below to add a note and describe more about your day</string>
+    <string name="no_internet">No Internet. Please check your connection and try again</string>
+    <string name="walking">Benefits:
+
+-Cardiovascular Health: Walking is an excellent cardiovascular exercise that helps improve heart health. It strengthens the heart, lowers blood pressure, and reduces the risk of heart disease.
+-Weight Management: Walking can aid in weight management and weight loss when combined with a healthy diet. It helps burn calories and fat, leading to better weight control.
+-Bone and Joint Health: Weight-bearing exercises like walking help maintain bone density, reducing the risk of osteoporosis. It also supports joint health and can alleviate joint pain.
+-Mental Well-being: Walking can boost mood and reduce stress, anxiety, and symptoms of depression. It releases endorphins, which are natural mood enhancers.
+-Increased Energy: Regular walking can improve stamina and energy levels, making you feel more energetic and productive throughout the day.
+-Improved Sleep: Engaging in daily walking can promote better sleep quality, helping you fall asleep faster and enjoy deeper sleep.
+How to Do It:
+
+-Warm-up: Start with a few minutes of light stretching to warm up your muscles and prepare your body for walking.
+-Choose the Right Footwear: Wear comfortable and supportive walking shoes to protect your feet and prevent injuries.
+-Find a Safe Location: Choose a safe and well-lit walking path, park, or track. You can also walk on a treadmill indoors.
+-Maintain Proper Posture: Stand tall with your head up, shoulders relaxed, and core engaged. -Swing your arms naturally as you walk.
+-Start Slowly: If you are a beginner, start with a gentle pace for 10-15 minutes. Gradually increase the duration and speed as your fitness improves.
+-Set Goals: Set achievable walking goals, such as increasing the distance or duration each week.
+-Include Hills or Incline: To challenge yourself, incorporate some uphill walking or incline settings on a treadmill.
+-Cool Down: After your walk, cool down by walking at a slower pace and stretching your muscles again.
+-Stay Hydrated: Bring a water bottle with you, especially on longer walks, to stay hydrated.
+-Consistency: Aim to walk regularly, ideally 30 minutes most days of the week, to experience the full benefits of walking.</string>
+    <string name="benifits">"Benefits : "</string>
+    <string name="how_to_do">How to do :</string>
 
 </resources>

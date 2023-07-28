@@ -3,6 +3,7 @@ package com.example.emoease.screens.exerciseScreen.ui
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,8 +15,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddBox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,14 +30,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.emoease.navigation.ExerciseScreens
 import com.example.emoease.screens.AnimatedLottieUrl
-import com.example.emoease.screens.exerciseScreen.util.Exercise
 import com.example.emoease.screens.exerciseScreen.util.listOfExercise
 import com.example.emoease.utils.FontFamEmo
 import com.example.emoease.utils.clickableWithoutRipple
 
 @Composable
-fun ExerciseScreen(navController: NavHostController) {
-    Column {
+fun ExerciseScreen(navController: NavHostController, padding: PaddingValues) {
+    Column(modifier = Modifier.padding(padding)) {
         AppHeader()
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
@@ -42,9 +45,14 @@ fun ExerciseScreen(navController: NavHostController) {
             items(listOfExercise) { rowItems ->
                 ExerciseItemCard(
                     name = rowItems.name, url = rowItems.icon
-                ){
-                    val index= listOfExercise.indexOf(rowItems)
-                    navController.navigate(ExerciseScreens.ExerciseDetailScreen.route+"/$index")
+                ) {
+                    val index = listOfExercise.indexOf(rowItems)
+                    if (index==0){
+                        navController.navigate(ExerciseScreens.YogaExercisesScreen.route)
+                    }
+                    else {
+                        navController.navigate(ExerciseScreens.ExerciseDetailScreen.route + "/$index")
+                    }
                 }
 
             }
@@ -53,7 +61,7 @@ fun ExerciseScreen(navController: NavHostController) {
 }
 
 @Composable
-fun AppHeader(text:String="Exercises") {
+fun AppHeader(text: String = "Exercises", showIcon: Boolean = false, onClick: () -> Unit = {}) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -66,19 +74,29 @@ fun AppHeader(text:String="Exercises") {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text =text ,
-                style = TextStyle(
+                text = text, style = TextStyle(
                     fontSize = 34.sp,
                     fontFamily = FontFamEmo.quicksand_bold,
                     fontWeight = FontWeight.Bold
                 )
             )
+            if (showIcon) Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        onClick.invoke()
+                    },
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(imageVector = Icons.Default.AddBox, contentDescription = null)
+            }
         }
     }
 }
 
 @Composable
-fun ExerciseItemCard(name: String, url: String,onClick:()->Unit) {
+fun ExerciseItemCard(name: String, url: String, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .padding(16.dp)
@@ -92,7 +110,7 @@ fun ExerciseItemCard(name: String, url: String,onClick:()->Unit) {
             modifier = Modifier
                 .padding(4.dp)
                 .clickableWithoutRipple {
-                onClick.invoke()
+                    onClick.invoke()
                 }, horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Card(

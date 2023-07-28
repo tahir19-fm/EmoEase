@@ -26,11 +26,13 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.emoease.navigation.BottomNavGraph
 import com.example.emoease.screens.HorizontalSlideAnimation
+import com.example.emoease.screens.StatusBarColor
 import com.example.emoease.utils.FontFamEmo
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen(navController: NavHostController = rememberNavController()) {
+    StatusBarColor(color = MaterialTheme.colors.primary)
     val bottomBarState = rememberSaveable { (mutableStateOf(true)) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     when (navBackStackEntry?.destination?.route) {
@@ -136,20 +138,20 @@ fun BottomBarScreenContent(
                     icon = {
                         Icon(
                             painterResource(id = if (selected) menuItem.iconFilled else menuItem.iconOutlined),
-                            contentDescription = menuItem.route
+                            contentDescription = menuItem.route,
                         )
                     },
                     label = {
                         Text(
                             text = menuItem.title, style = TextStyle(
                                 fontFamily = if (selected) FontFamEmo.quicksand_medium
-                                else FontFamEmo.quicksand_regular, fontSize = 14.sp
+                                else FontFamEmo.quicksand_regular, fontSize = 10.sp,
                             )
                         )
                     },
                     enabled = true,
                     modifier = Modifier.background(MaterialTheme.colors.surface),
-                    selectedContentColor = MaterialTheme.colors.onSurface
+                    selectedContentColor = MaterialTheme.colors.primary
                 )
             }
         }

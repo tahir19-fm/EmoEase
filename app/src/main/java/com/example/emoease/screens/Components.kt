@@ -1,7 +1,6 @@
 package com.example.emoease.screens
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
@@ -9,6 +8,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,6 +17,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -26,17 +28,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
@@ -45,13 +50,13 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.emoease.R
 import com.example.emoease.utils.FontFamEmo
 import com.example.emoease.utils.clickableWithoutRipple
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
 
 @Composable
 fun LogoApp(modifier: Modifier = Modifier, fontSize: TextUnit = 80.sp) {
     Text(
         text = stringResource(id = R.string.app_name), style = TextStyle(
-            color = MaterialTheme.colors.onSecondary,
             fontSize = fontSize,
             fontWeight = FontWeight.Normal,
             fontFamily = FontFamEmo.logo
@@ -85,14 +90,15 @@ fun CustomSnackBar(
     clickLabel: String = "Click",
     isLabelActive: Boolean = false,
     onClick: () -> Unit = {},
-    showSnackBar: MutableState<Boolean>
+    showSnackBar: MutableState<Boolean>,
+    delayTime:Long=2000
 ) {
     if (!showSnackBar.value) return
     val isVisible = remember {
         mutableStateOf(true)
     }
     LaunchedEffect(true) {
-        delay(2000)
+        delay(delayTime)
         isVisible.value = false
         delay(200)
         showSnackBar.value = false
@@ -208,4 +214,37 @@ fun AnimatedLottieUrl(url:String,modifier: Modifier=Modifier){
         progress,
         modifier = modifier.size(400.dp)
     )
+}
+@Composable
+fun StatusBarColor(color: Color){
+    val systemUiController = rememberSystemUiController()
+        systemUiController.setSystemBarsColor(
+            color = color
+        )
+}
+@Composable
+fun ImageFromURL(modifier: Modifier,url: String,contentDescription:String?=null) {
+    AsyncImage(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(url)
+            .build(),
+        contentDescription = contentDescription,
+        contentScale = ContentScale.Fit,
+        modifier = modifier
+    )
+
+}
+
+@Composable
+fun CardContent(modifier: Modifier, content: @Composable () -> Unit) {
+    Card(
+        modifier = modifier
+            .padding(16.dp)
+            .fillMaxWidth(),
+        backgroundColor = MaterialTheme.colors.surface,
+        shape = RoundedCornerShape(8.dp),
+        elevation = 4.dp
+    ) {
+        content()
+    }
 }

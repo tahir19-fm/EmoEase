@@ -20,6 +20,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -53,13 +54,12 @@ fun AccountProfileScreen(
             size.width - with(density) { boxSize.toPx() }
         }
     }
-    val scope = rememberCoroutineScope()
+    rememberCoroutineScope()
 
     Surface(
         modifier = Modifier
             .fillMaxSize()
             .padding(padding)
-
 
     ) {
         LazyColumn(
@@ -69,8 +69,7 @@ fun AccountProfileScreen(
         ) {
 
             item {
-                //  Text(text = "Account", style = TextStyle(color = TextColor, fontFamily = FontFamilyAirLyft.extraBold, fontWeight = FontWeight.Bold, fontSize = 30.sp), modifier = Modifier.padding(top = 20.dp, start = 22.dp))
-                ProfileBox(name = "Mohammad Imran ")
+                ProfileBox(name = "User")
                 DrawLineSolid(
                     strokeWidth = 22f,
                     color = Color.LightGray,
@@ -86,33 +85,6 @@ fun AccountProfileScreen(
                     ), modifier = Modifier.padding(start = 22.dp, bottom = 16.dp)
                 )
             }
-            items(general) {
-                ItemCard(
-                    itemName = it.itemName,
-                    itemIcon = it.itemIcon,
-                    backgroundColor = it.color,
-                    itemDescription = it.itemDescription
-                ) {
-//                       if (it.enabled){
-//                           navController.navigate(Graph.Account)
-//                       }
-                }
-                Spacer(modifier = Modifier.height(12.dp))
-            }
-            item {
-
-                DrawLineSolid(
-                    strokeWidth = 22f,
-                    color = Color.LightGray,
-                    modifier = Modifier.padding(top = 12.dp)
-                )
-                Spacer(modifier = Modifier.height(26.dp))
-                Text(
-                    text = "Application", style = TextStyle(
-                        fontWeight = FontWeight.Bold, fontSize = 12.sp
-                    ), modifier = Modifier.padding(start = 22.dp, bottom = 16.dp)
-                )
-            }
             items(application) {
                 ItemCard(
                     itemName = it.itemName,
@@ -123,7 +95,6 @@ fun AccountProfileScreen(
                 Spacer(modifier = Modifier.height(12.dp))
             }
             item {
-
                 DrawLineSolid(
                     strokeWidth = 22f,
                     color = Color.LightGray,
@@ -144,6 +115,9 @@ fun AccountProfileScreen(
                     itemDescription = it.itemDescription
                 ) {}
                 Spacer(modifier = Modifier.height(12.dp))
+            }
+            item{
+                Text(text = "App is still under development", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, color = MaterialTheme.colors.primary)
             }
 
 

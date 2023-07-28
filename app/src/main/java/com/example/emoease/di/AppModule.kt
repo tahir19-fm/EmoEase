@@ -8,6 +8,7 @@ import com.example.emoease.roomDb.AppDatabase
 import com.example.emoease.roomDb.AppDatabaseDao
 import com.example.emoease.networkService.CommonApiService
 import com.example.emoease.networkService.OkHttpClientHelper
+import com.example.emoease.roomDb.OneTimeServiceDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +23,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
     @Singleton
     @Provides
     fun providesCommonApiService(): CommonApiService {
@@ -50,5 +50,9 @@ object AppModule {
     @Provides
     fun provideNotesDao(noteDatabase: AppDatabase): AppDatabaseDao
             =noteDatabase.appDao()
+
+    @Singleton
+    @Provides
+    fun oneTimeServiceDao(db:AppDatabase):OneTimeServiceDao=db.oneTimeServiceDao()
 
 }

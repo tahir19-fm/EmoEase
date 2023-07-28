@@ -12,7 +12,7 @@ import com.example.emoease.ui.theme.SupportColor
 
 val othersList = listOf(
     AccountItem("Support", R.drawable.new_support_icon, SupportColor,"How can we help you?"),
-    AccountItem("Logout", R.drawable.new_logout_icon, LogoutColor,null)
+//    AccountItem("Logout", R.drawable.new_logout_icon, LogoutColor,null)
 )
 val genralList= listOf(
     AccountItem("Profile", R.drawable.new_profile_icon, ProfileColor,"8082731286",true),

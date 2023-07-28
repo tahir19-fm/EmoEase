@@ -31,9 +31,14 @@ import com.example.emoease.utils.LottieUrls
 
 @Composable
 fun ReminderScreen() {
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Column(modifier = Modifier.fillMaxWidth(),
+    verticalArrangement = Arrangement.Center,
+    horizontalAlignment = Alignment.CenterHorizontally) {
         AppHeader(text = "Reminder")
         ItemReminder()
+        Text(text = "Coming Soon..."
+            , style = TextStyle(fontSize = 42.sp, fontFamily = FontFamEmo.quicksand_bold)
+        )
     }
 }
 

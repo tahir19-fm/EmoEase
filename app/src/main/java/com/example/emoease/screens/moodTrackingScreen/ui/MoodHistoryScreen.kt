@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.emoease.R
+import com.example.emoease.navigation.MoodScreens
 import com.example.emoease.networkService.ApiResult
 import com.example.emoease.screens.AnimatedLottie
 import com.example.emoease.screens.CustomSnackBar
@@ -102,7 +103,8 @@ private fun HistoryColumn(
                 LazyColumn {
                     items(list.reversed()) { item ->
                         EmotionItemCard(animatedRes = item.mood, date = item.id){
-                            //TODO navigate to details screen
+                            viewModel.setSelectedItemHistory(item = item)
+                            navController.navigate(MoodScreens.HistoryMoodDetailScreen.route)
                         }
                     }
                 }

@@ -1,4 +1,4 @@
-package com.example.emoease.screens.accountScreen.util
+package com.example.emoease.utils
 
 import android.app.Notification
 import android.app.NotificationManager
@@ -8,33 +8,43 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.media.RingtoneManager
-import androidx.compose.material.MaterialTheme
-import androidx.compose.ui.graphics.Color
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.emoease.MainActivity
 import com.example.emoease.R
 import com.example.emoease.screens.accountScreen.data.NotificationDAO
+import timber.log.Timber
 import kotlin.random.Random
 
 class MyNotificationReceiver : BroadcastReceiver() {
-    private val channelId = "reminder" // Unique channel ID
+    private val channelId = "newReminder" // Unique channel ID
     private val notificationId = 1
     override fun onReceive(context: Context, intent: Intent) {
+        Timber.tag("notification").d("createNotificatiodfsdfsdfdsfn: ")
         // Create and show the notification
         val title=intent.getStringExtra("title")
         val content=intent.getStringExtra("content")
-        val notification = createNotification(context,NotificationDAO(title?:"reminder",content?:"description"))
+        val notification = createNotification(context,
+            NotificationDAO(title ?: "reminder", content ?: "description")
+        )
         showNotification(context, notification)
     }
 
     private fun createNotification(context: Context, notificationDAO: NotificationDAO): Notification {
+
+        Timber.tag("notification").d("createNotification: ")
         // Create the notification using NotificationCompat.Builder
         val notificationBuilder = NotificationCompat.Builder(context, channelId)
             .setContentTitle(notificationDAO.title)
             .setContentText(notificationDAO.content)
             .setSmallIcon(R.drawable.download)
             .setPriority(NotificationManager.IMPORTANCE_HIGH)
-            .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.happy_login_img))
+            .setLargeIcon(
+                BitmapFactory.decodeResource(
+                    context.resources,
+                    R.drawable.happy_login_img
+                )
+            )
             .setAutoCancel(true)
 //            .setColor() // Set the color of the notification
             .setPriority(NotificationCompat.PRIORITY_HIGH) // Set the priority of the notification
@@ -48,6 +58,7 @@ class MyNotificationReceiver : BroadcastReceiver() {
     }
 
     private fun showNotification(context: Context, notification: Notification) {
+        Timber.tag("notification").d("createNotification: asdasd")
         // Show the notification using the NotificationManager
         val notificationManager =
             context.getSystemService(NotificationManager::class.java) as NotificationManager
@@ -67,5 +78,3 @@ private fun createPendingIntent(context: Context): PendingIntent {
         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
     )
 }
-
-

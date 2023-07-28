@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -34,7 +35,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.emoease.networkService.ApiResult
+import com.example.emoease.screens.exerciseScreen.ui.AppHeader
 import com.example.emoease.screens.moodTrackingScreen.util.MoodTrackingViewModel
 import com.example.emoease.screens.moodTrackingScreen.util.listOfActivities
 import com.example.emoease.utils.FontFamEmo
@@ -44,7 +47,7 @@ import timber.log.Timber
 @SuppressLint("MutableCollectionMutableState")
 @Composable
 fun ActivityItemScreen(
-    paddingValues: PaddingValues, viewModel: MoodTrackingViewModel, title: String?
+    paddingValues: PaddingValues, viewModel: MoodTrackingViewModel, title: String?,navController: NavController
 ) {
     LaunchedEffect(viewModel) {
         viewModel.getActivityItems(title ?: "")
@@ -80,19 +83,18 @@ fun ActivityItemScreen(
             else -> {}
         }
     }
-
     if (!loading.value) Surface(
         modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues),
     ) {
 
-
         Column(
-            verticalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth()
         ) {
+            AppHeader("Select $title")
             val listOfItems = viewModel.activityItems.observeAsState().value?.data?.items
             val selected = viewModel.selectedItems.value?.data
             if (selected != null) {
@@ -107,14 +109,15 @@ fun ActivityItemScreen(
                     saveData(listOfItems, title, viewModel, it)
                 }
                 showDialogue.value = false
-            }, noteText = text)
+            }, noteText = text,title="add $title")
 
             LazyColumn(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
+                modifier = Modifier.fillMaxHeight(0.7f),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
                 if (listOfItems != null) {
-                   val itemsList=listOfItems.filter { it.isNotEmpty()&&it.length>1 }
+                    val itemsList = listOfItems.filter { it.isNotEmpty() && it.length > 1 }
                     items(itemsList.chunked(2)) { rowItems ->
                         Row(
                             modifier = Modifier
@@ -167,8 +170,11 @@ fun ActivityItemScreen(
             Button(
                 onClick = {
                     Timber.tag("selectedValiue").d(title.toString())
-                    val selectedList=selectedItems.value.filter { it.isNotEmpty()&&it.length>2 }
-                    viewModel.selectedItems(list = selectedList, title ?: "")
+                    val selectedList =
+                        selectedItems.value.filter { it.isNotEmpty() && it.length > 2 }
+                    val filterList=selectedList.distinct()
+                    viewModel.selectedItems(list = filterList, title ?: "")
+                    navController.popBackStack()
                 },
                 shape = RoundedCornerShape(40.dp),
                 colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.emoease.networkService.ApiResult
 import com.example.emoease.roomDb.ActivityModal
 import com.example.emoease.roomDb.EmotionModal
+import com.example.emoease.screens.moodTrackingScreen.data.MoodItem
 import com.example.emoease.utils.stringToList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -160,9 +161,11 @@ class MoodTrackingViewModel @Inject constructor(private val repository: MoodTrac
     }
 
     fun checkSelected(item: String): Boolean {
-        val data=selectedItems.value?.data as List<String>
-        if (data.contains(item)){
-            return true
+        if (!selectedItems.value?.data.isNullOrEmpty()) {
+            val data = selectedItems.value?.data as List<String>
+            if (data.contains(item)) {
+                return true
+            }
         }
         return false
     }
@@ -184,6 +187,12 @@ class MoodTrackingViewModel @Inject constructor(private val repository: MoodTrac
         }
     }
 
+    private val _selectedItemHistory=MutableLiveData<EmotionModal>()
+    val selectedItemHistory:MutableLiveData<EmotionModal>
+        get() = _selectedItemHistory
+    fun setSelectedItemHistory(item: EmotionModal){
+        _selectedItemHistory.value=item
+    }
 
 
 }

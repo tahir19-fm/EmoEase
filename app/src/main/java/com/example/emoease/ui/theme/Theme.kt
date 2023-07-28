@@ -96,11 +96,10 @@ private val LightThemeColors5 = lightColors(
 @Composable
 fun EmoEaseTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     val colors = if (darkTheme) {
-        DarkColorPalette
+        LightThemeColors5
     } else {
         LightThemeColors5
     }
-
     MaterialTheme(
         colors = colors,
         typography = Typography,

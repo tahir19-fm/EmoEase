@@ -29,6 +29,7 @@ import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -49,6 +50,7 @@ import com.example.emoease.screens.HorizontalSlideAnimation
 import com.example.emoease.screens.moodTrackingScreen.data.MoodItem
 import com.example.emoease.utils.FontFamEmo
 import com.example.emoease.utils.clickableWithoutRipple
+import com.example.emoease.utils.dateToMillis
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -56,18 +58,28 @@ import java.util.Locale
 
 
 @Composable
-fun MyMood(currMood: Int) {
+fun MyMood(currMood: Int,isToday:Boolean=true,date:String="") {
     val isVisible = remember { mutableStateOf(false) }
     LaunchedEffect(currMood) {
         isVisible.value = false
         delay(500)
         isVisible.value = true
     }
-    val currentDate = Calendar.getInstance().time
-    val dateFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
-    val dayFormat = SimpleDateFormat("EEEE", Locale.getDefault())
-    val formattedDay = dayFormat.format(currentDate)
-    val formattedDate = dateFormat.format(currentDate)
+    var formattedDate=""
+    var formattedDay=""
+    if (isToday) {
+        val currentDate = Calendar.getInstance().time
+        val dateFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
+        val dayFormat = SimpleDateFormat("EEEE", Locale.getDefault())
+        formattedDay = dayFormat.format(currentDate)
+        formattedDate = dateFormat.format(currentDate)
+    }else{
+        val currentDate= dateToMillis(date,"d MMMM yyyy")
+        val dateFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
+        val dayFormat = SimpleDateFormat("EEEE", Locale.getDefault())
+        formattedDay = dayFormat.format(currentDate)
+        formattedDate = dateFormat.format(currentDate)
+    }
     Column(
         modifier = Modifier
             .height(200.dp)
@@ -86,11 +98,6 @@ fun MyMood(currMood: Int) {
         Box(
             modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center
         ) {
-//            Image(
-//                painter = painterResource(id = currMood),
-//                contentDescription = null,
-//                modifier = Modifier.size(100.dp)
-//            )
             AnimatedLottie(animationRes = currMood, modifier = Modifier.size(100.dp))
 
         }
@@ -339,11 +346,26 @@ fun AlertBox(
                         .wrapContentHeight()
                         .padding(top = 8.dp),
                     textStyle = MaterialTheme.typography.body1,
+                    maxLines = Int.MAX_VALUE,
 
                     )
             }
 
         })
+    }
+}
+
+@Composable
+fun ActivitiesName(title: String,icon: ImageVector){
+    Row(modifier = Modifier.wrapContentSize()) {
+        Text(
+            text = title, style = TextStyle(
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamEmo.quicksand_semi_bold,
+                fontSize = 20.sp
+            )
+        )
+        Icon(imageVector = icon, contentDescription = null)
     }
 }
 

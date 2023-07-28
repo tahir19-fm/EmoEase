@@ -25,7 +25,7 @@ class EmoEaseApp:Application() {
             Timber.plant(Timber.DebugTree())
         }
         val notificationChannel=NotificationChannel(
-            "reminder",
+            "newReminder",
             "reminder channel",
             NotificationManager.IMPORTANCE_HIGH
         )
