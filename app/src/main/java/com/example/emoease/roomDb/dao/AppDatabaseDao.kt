@@ -1,4 +1,4 @@
-package com.example.emoease.roomDb
+package com.example.emoease.roomDb.dao
 
 
 
@@ -6,6 +6,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.emoease.roomDb.modals.ActivityModal
+import com.example.emoease.roomDb.modals.EmotionModal
 
 
 @Dao
@@ -29,7 +31,7 @@ interface AppDatabaseDao {
 
     //get all emotion details
     @Query("SELECT * from emotion_tbl WHERE id=:id")
-    suspend fun getEmotionDetails(id: String):EmotionModal
+    suspend fun getEmotionDetails(id: String): EmotionModal
 
     //update mood
     @Query("UPDATE emotion_tbl SET mood=:newMood WHERE id=:id")
@@ -73,7 +75,7 @@ interface AppDatabaseDao {
     suspend fun getSelectedSymptoms(id: String):List<String>
     //get all activity list
     @Query("SELECT * from activity_table WHERE activities = :id")
-    suspend fun getActivityItems(id:String):ActivityModal
+    suspend fun getActivityItems(id:String): ActivityModal
 
     //add new activity item
     @Query("UPDATE activity_table SET items = :newValue WHERE activities = :itemId")

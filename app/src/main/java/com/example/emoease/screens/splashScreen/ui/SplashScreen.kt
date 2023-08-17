@@ -1,10 +1,10 @@
 package com.example.emoease.screens.splashScreen.ui
 
+import android.util.Log
 import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,23 +21,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import com.example.emoease.EmoEaseApp
 import com.example.emoease.R
 import com.example.emoease.navigation.Graph
 import com.example.emoease.navigation.SplashScreens
+import com.example.emoease.roomDb.AuthSharedPreferences
+import com.example.emoease.screens.AppLogo
 import com.example.emoease.screens.StatusBarColor
-import com.example.emoease.screens.accountScreen.util.AccountViewModel
 import com.example.emoease.screens.splashScreen.util.SplashViewModel
 import com.example.emoease.utils.FontFamEmo
+import com.example.emoease.utils.isValidFirebaseAuthTokenSaved
 import kotlinx.coroutines.delay
 
 
@@ -50,6 +48,13 @@ fun SplashScreen(
         Animatable(0f)
     }
     LaunchedEffect(viewModel) {
+        if (!isValidFirebaseAuthTokenSaved()){
+            val refreshToken= AuthSharedPreferences.refreshToken
+            if (refreshToken!=null) {
+                viewModel.getNewAuthToken(refreshToken)
+            }
+
+        }
         scale.animateTo(
             targetValue = 0.9f, animationSpec = tween(durationMillis = 1200,
                 easing = {
@@ -60,7 +65,7 @@ fun SplashScreen(
         viewModel.exists()
         delay(2000)
         if (viewModel.exist.value == true) {
-            navController.navigate(Graph.Bottom) {
+            navController.navigate(Graph.Authentication) {
                 navController.graph.route?.let {
                     popUpTo(it) {
                         inclusive = true
@@ -78,6 +83,7 @@ fun SplashScreen(
         }
 
     }
+    Log.d("TAG", "SplashScreen: ${EmoEaseApp.authToken}")
     Surface(
         modifier = Modifier
             .fillMaxSize()
@@ -108,14 +114,17 @@ fun SplashScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Text(
-                        text = stringResource(id = R.string.app_name),
-                        style = TextStyle(
-                            fontFamily = FontFamEmo.logo,
-                            fontSize = 84.sp,
-                            color = MaterialTheme.colors.primary
-                        ),
-                    )
+//                    Text(
+//                        text = stringResource(id = R.string.app_name),
+//                        style = TextStyle(
+//                            fontFamily = FontFamEmo.logo,
+//                            fontSize = 84.sp,
+//                            color = MaterialTheme.colors.primary
+//                        ),
+//                    )
+                    AppLogo(modifier = Modifier
+                        .padding(2.dp)
+                        .fillMaxSize(), tint = MaterialTheme.colors.primary)
 
                 }
 

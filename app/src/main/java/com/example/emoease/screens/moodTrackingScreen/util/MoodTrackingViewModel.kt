@@ -1,13 +1,11 @@
 package com.example.emoease.screens.moodTrackingScreen.util
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.emoease.networkService.ApiResult
-import com.example.emoease.roomDb.ActivityModal
-import com.example.emoease.roomDb.EmotionModal
-import com.example.emoease.screens.moodTrackingScreen.data.MoodItem
+import com.example.emoease.roomDb.modals.ActivityModal
+import com.example.emoease.roomDb.modals.EmotionModal
 import com.example.emoease.utils.stringToList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay

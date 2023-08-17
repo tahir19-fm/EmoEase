@@ -7,18 +7,24 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -28,9 +34,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -85,13 +93,22 @@ fun DrawLineSolid(
 }
 
 @Composable
+fun AppLogo(modifier: Modifier, tint: Color) {
+    Icon(
+        painter = painterResource(id = R.drawable.ic_app_logo),
+        contentDescription = "appLogo", modifier = modifier,
+        tint=tint
+    )
+}
+
+@Composable
 fun CustomSnackBar(
     text: String,
     clickLabel: String = "Click",
     isLabelActive: Boolean = false,
     onClick: () -> Unit = {},
     showSnackBar: MutableState<Boolean>,
-    delayTime:Long=2000
+    delayTime: Long = 2000
 ) {
     if (!showSnackBar.value) return
     val isVisible = remember {
@@ -140,14 +157,15 @@ fun CustomSnackBar(
             })
     }
 }
+
 @Composable
-fun HorizontalSlideAnimation( content: @Composable () -> Unit ){
+fun HorizontalSlideAnimation(content: @Composable () -> Unit) {
     val visibility = remember {
         mutableStateOf(false)
     }
-    LaunchedEffect(visibility){
+    LaunchedEffect(visibility) {
         delay(1)
-        visibility.value=true
+        visibility.value = true
     }
     val slowEasing = CubicBezierEasing(0.2f, 0.0f, 0.2f, 1.0f)
     AnimatedVisibility(
@@ -155,9 +173,10 @@ fun HorizontalSlideAnimation( content: @Composable () -> Unit ){
         enter = slideInHorizontally(
             initialOffsetX = { 300 },
             animationSpec = tween(durationMillis = 1500, easing = slowEasing)
-        )){
-            content()
-        }
+        )
+    ) {
+        content()
+    }
 }
 
 @Composable
@@ -191,7 +210,7 @@ fun AnimatedLottie(
 }
 
 @Composable
-fun AnimatedLottieUrl(url:String,modifier: Modifier=Modifier){
+fun AnimatedLottieUrl(url: String, modifier: Modifier = Modifier) {
     val isPlaying = remember {
         mutableStateOf(true)
     }
@@ -215,15 +234,17 @@ fun AnimatedLottieUrl(url:String,modifier: Modifier=Modifier){
         modifier = modifier.size(400.dp)
     )
 }
+
 @Composable
-fun StatusBarColor(color: Color){
+fun StatusBarColor(color: Color) {
     val systemUiController = rememberSystemUiController()
-        systemUiController.setSystemBarsColor(
-            color = color
-        )
+    systemUiController.setSystemBarsColor(
+        color = color
+    )
 }
+
 @Composable
-fun ImageFromURL(modifier: Modifier,url: String,contentDescription:String?=null) {
+fun ImageFromURL(modifier: Modifier, url: String, contentDescription: String? = null) {
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
             .data(url)
@@ -246,5 +267,43 @@ fun CardContent(modifier: Modifier, content: @Composable () -> Unit) {
         elevation = 4.dp
     ) {
         content()
+    }
+}
+
+@Composable
+fun LoadingOverlay(
+    isLoading: Boolean,
+    content: @Composable () -> Unit
+) {
+    val isClickable = remember { mutableStateOf(!isLoading) }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .clickable(enabled = isClickable.value) {
+            /* Handle click if not loading */ }
+    ) {
+        // Add content if not loading
+        if (!isLoading) {
+            content()
+        }
+
+        // Loading indicator
+        if (isLoading) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .graphicsLayer(alpha = 0.5f)
+            ) {
+                // You can use any loading indicator UI here
+                // For example, a circular progress indicator
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .size(48.dp)
+                        .align(Center),
+                    color = MaterialTheme.colors.primary
+                )
+            }
+        }
     }
 }

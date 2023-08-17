@@ -30,7 +30,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "String", "BASE_URL", "\"https://yoga-api-nzy4.onrender.com\""
+            buildConfigField "String", "BASE_URL", "\"https://obk5596ir0.execute-api.ap-south-1.amazonaws.com\""
             debuggable true
         }
         release {
@@ -125,6 +125,8 @@ dependencies {
     //chucker
     debugImplementation "com.github.chuckerteam.chucker:library:3.5.2"
     releaseImplementation "com.github.chuckerteam.chucker:library-no-op:3.5.2"
+
+
 
     //timber
     implementation 'com.jakewharton.timber:timber:4.7.1'

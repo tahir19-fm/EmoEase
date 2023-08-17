@@ -1,9 +1,11 @@
-package com.example.emoease.roomDb
+package com.example.emoease.roomDb.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.emoease.roomDb.modals.ActivityModal
+import com.example.emoease.roomDb.modals.OneTimeService
 
 @Dao
 interface OneTimeServiceDao {

@@ -1,13 +1,9 @@
 package com.example.emoease.screens.moodTrackingScreen.util
 
-import androidx.room.RoomDatabase
 import com.example.emoease.networkService.ApiResult
-import com.example.emoease.roomDb.ActivityModal
-import com.example.emoease.roomDb.AppDatabaseDao
-import com.example.emoease.roomDb.EmotionModal
-import com.example.emoease.screens.exerciseScreen.ui.AppHeader
-import com.example.emoease.screens.moodTrackingScreen.data.MoodEntry
-import timber.log.Timber
+import com.example.emoease.roomDb.modals.ActivityModal
+import com.example.emoease.roomDb.dao.AppDatabaseDao
+import com.example.emoease.roomDb.modals.EmotionModal
 import javax.inject.Inject
 
 class MoodTrackingRepository @Inject constructor(private val roomDatabase: AppDatabaseDao) {

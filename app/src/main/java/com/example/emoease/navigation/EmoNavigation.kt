@@ -1,6 +1,7 @@
 package com.example.emoease.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
@@ -11,8 +12,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import com.example.emoease.screens.StatusBarColor
 import com.example.emoease.screens.accountScreen.ui.AccountProfileScreen
 import com.example.emoease.screens.authScreen.ui.LoginScreen
+import com.example.emoease.screens.authScreen.ui.SignUpScreen
+import com.example.emoease.screens.authScreen.util.LoginScreenViewModel
 import com.example.emoease.screens.moodTrackingScreen.util.MoodTrackingViewModel
 import com.example.emoease.screens.bottomBar.BottomBarScreen
 import com.example.emoease.screens.bottomBar.MainScreen
@@ -130,9 +134,13 @@ fun NavGraphBuilder.exerciseNavGraph(
 }
 
 fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
-    navigation(route = Graph.Authentication, startDestination = AuthScreens.LoginScreen.route) {
+    navigation(route = Graph.Authentication, startDestination = AuthScreens.SignUpScreen.route) {
         composable(AuthScreens.LoginScreen.route) {
             LoginScreen()
+        }
+        composable(AuthScreens.SignUpScreen.route){
+            StatusBarColor(color = MaterialTheme.colors.primary)
+            SignUpScreen()
         }
     }
 }

@@ -16,13 +16,15 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
@@ -110,6 +112,43 @@ fun InputField(
 }
 
 @Composable
+fun NameInputTf(
+    modifier: Modifier = Modifier,
+    nameState: MutableState<String>,
+    labelId: String = "Full Name",
+    enabled: Boolean = true,
+    imeAction: ImeAction = ImeAction.Next,
+    onAction: KeyboardActions = KeyboardActions.Default
+){
+    InputField(
+        modifier = modifier,
+        valueState = nameState,
+        labelId = labelId,
+        enabled = enabled,
+        keyboardType = KeyboardType.Text,
+        imeAction = imeAction,
+        onAction = onAction
+    )
+}
+@Composable
+fun PhoneNumberInput( modifier: Modifier = Modifier,
+                 emailState: MutableState<String>,
+                 labelId: String = "Phone Number",
+                 enabled: Boolean = true,
+                 imeAction: ImeAction = ImeAction.Next,
+                 onAction: KeyboardActions = KeyboardActions.Default){
+    InputField(
+        modifier = modifier,
+        valueState = emailState,
+        labelId = labelId,
+        enabled = enabled,
+        keyboardType = KeyboardType.Phone,
+        imeAction = imeAction,
+        onAction = onAction
+    )
+}
+
+@Composable
 fun SubmitButton(
     textId: String,
     loading: Boolean,
@@ -185,7 +224,7 @@ fun PasswordInput(
 fun PasswordVisibility(passwordVisibility: MutableState<Boolean>) {
     val visible = passwordVisibility.value
     IconButton(onClick = { passwordVisibility.value = !visible }) {
-        Icons.Default.Close
+       Icon(imageVector =if (passwordVisibility.value) Icons.Default.VisibilityOff else Icons.Default.Visibility , contentDescription =null )
     }
 }
 
@@ -232,8 +271,12 @@ fun GoogleSignInButton(
 @Composable
 fun CustomDivider(){
     Row (verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center){
-        DrawLineSolid(modifier = Modifier.width(120.dp).padding(end = 2.dp))
+        DrawLineSolid(modifier = Modifier
+            .width(120.dp)
+            .padding(end = 2.dp))
         Text(text = "or", modifier = Modifier.padding(bottom = 6.dp))
-        DrawLineSolid(modifier = Modifier.width(120.dp).padding(start = 2.dp))
+        DrawLineSolid(modifier = Modifier
+            .width(120.dp)
+            .padding(start = 2.dp))
     }
 }

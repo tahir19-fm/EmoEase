@@ -28,5 +28,9 @@ How to Do It:
 -Consistency: Aim to walk regularly, ideally 30 minutes most days of the week, to experience the full benefits of walking.</string>
     <string name="benifits">"Benefits : "</string>
     <string name="how_to_do">How to do :</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="sign_up">Sign Up</string>
 
 </resources>

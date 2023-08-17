@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.emoease.networkService.ApiResult
-import com.example.emoease.roomDb.ActivityModal
 import com.example.emoease.screens.exerciseScreen.modal.YogaCategories
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

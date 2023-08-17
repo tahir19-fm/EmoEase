@@ -1,6 +1,7 @@
 package com.example.emoease.screens.authScreen.ui
 
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -36,9 +37,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.emoease.EmoEaseApp
 import com.example.emoease.R
+import com.example.emoease.roomDb.AuthSharedPreferences
 import com.example.emoease.screens.CustomSnackBar
 import com.example.emoease.screens.LogoApp
+import com.example.emoease.screens.StatusBarColor
 import com.example.emoease.screens.authScreen.util.LoginScreenViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
@@ -48,6 +52,7 @@ import timber.log.Timber
 @Preview
 @Composable
 fun LoginScreen(loginScreenViewModel: LoginScreenViewModel = hiltViewModel()) {
+    Log.d("TAG", "LoginScreen: ${AuthSharedPreferences.refreshToken} ${System.currentTimeMillis()} ${EmoEaseApp.authToken}")
     val showLoginForm = rememberSaveable {
         mutableStateOf(true)
     }
@@ -60,6 +65,7 @@ fun LoginScreen(loginScreenViewModel: LoginScreenViewModel = hiltViewModel()) {
     val showSnackBar = remember {
         mutableStateOf(false)
     }
+    StatusBarColor(color = MaterialTheme.colors.primary)
     Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
 
         Column(
@@ -102,7 +108,8 @@ fun LoginScreen(loginScreenViewModel: LoginScreenViewModel = hiltViewModel()) {
                 FirebaseAuth.getInstance().signInWithCredential(credential)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            Timber.tag("googlesign").d("Signin complete")
+                            //TODO : sign in with email
+                            Timber.tag("googlesign").d("Signin complete ")
                         }
                     }
 
@@ -166,12 +173,7 @@ fun UserForm(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        if (isCreateAccount) Text(
-            text = stringResource(id = R.string.create_acct),
-            modifier = Modifier.padding(4.dp),
-//            style = ReaderAppTextStyle.lightText
-        ) else Text("")
-        EmailInput(emailState = email, enabled = !loading, onAction = KeyboardActions {
+        PhoneNumberInput(emailState = email, enabled = !loading, onAction = KeyboardActions {
             passwordFocusRequest.requestFocus()
         })
         PasswordInput(modifier = Modifier.focusRequester(passwordFocusRequest),
@@ -185,7 +187,7 @@ fun UserForm(
                 keyboardController?.hide()
             })
         SubmitButton(
-            textId = if (isCreateAccount) "Create Account" else "Login",
+            textId = stringResource(id = R.string.login),
             loading = loading,
             validInputs = valid
         ) {

@@ -1,10 +1,15 @@
 package com.example.emoease.screens.authScreen.util
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.emoease.EmoEaseApp
+import com.example.emoease.networkService.ApiResult
+import com.example.emoease.roomDb.AuthSharedPreferences
+import com.example.emoease.screens.authScreen.data.AuthResponceDAO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -15,7 +20,7 @@ import javax.inject.Inject
 
 @SuppressLint("StaticFieldLeak")
 @HiltViewModel
-class LoginScreenViewModel @Inject constructor() :ViewModel() {
+class LoginScreenViewModel @Inject constructor(private val repository: LoginRepository) :ViewModel() {
     private val auth:FirebaseAuth=Firebase.auth
     private val _loading=MutableLiveData(false)
     val loading:LiveData<Boolean> =_loading
@@ -24,19 +29,31 @@ class LoginScreenViewModel @Inject constructor() :ViewModel() {
             = viewModelScope.launch{
         _loading.value=true
         try {
-            auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful){
-                        _loading.value=false
-                        Timber.tag("Firebase").d("Success")
-                        home()
-                    }
+//            auth.signInWithEmailAndPassword(email, password)
+//                .addOnCompleteListener { task ->
+//                    if (task.isSuccessful){
+//                        _loading.value=false
+//                        Timber.tag("Firebase").d("Success")
+//                        home()
+//                    }
+//                }
+//                .addOnFailureListener{
+//                    _loading.value=false
+//                    Timber.tag("Firebase").d("$it")
+//                    it.localizedMessage?.let { it1 -> error(it1) }
+//                }
+            when(val result=repository.loginUser(email,password)){
+                is ApiResult.Success->{
+                   val data= result.data as AuthResponceDAO
+                    AuthSharedPreferences.authToken= data.data?.authToken
+                    AuthSharedPreferences.refreshToken= data.data?.refreshToken
+                    AuthSharedPreferences.tokenExpiry= (data.data?.expiresIn!!*1000)+System.currentTimeMillis()
+
+                    Log.d("TAG", "signInWithEmailAndPassword: ${AuthSharedPreferences.authToken}")
                 }
-                .addOnFailureListener{
-                    _loading.value=false
-                    Timber.tag("Firebase").d("$it")
-                    it.localizedMessage?.let { it1 -> error(it1) }
-                }
+
+                else -> {}
+            }
 
         }catch (ex: Exception){
             _loading.value=false

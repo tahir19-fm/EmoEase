@@ -4,11 +4,12 @@ package com.example.emoease.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.emoease.BuildConfig
 import com.example.emoease.roomDb.AppDatabase
-import com.example.emoease.roomDb.AppDatabaseDao
+import com.example.emoease.roomDb.dao.AppDatabaseDao
 import com.example.emoease.networkService.CommonApiService
 import com.example.emoease.networkService.OkHttpClientHelper
-import com.example.emoease.roomDb.OneTimeServiceDao
+import com.example.emoease.roomDb.dao.OneTimeServiceDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,7 +28,7 @@ object AppModule {
     @Provides
     fun providesCommonApiService(): CommonApiService {
         return Retrofit.Builder()
-            .baseUrl("https://yoga-api-nzy4.onrender.com")
+            .baseUrl(BuildConfig.BASE_URL)
             .client(OkHttpClientHelper().getOkHttpClient())
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
@@ -53,6 +54,6 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun oneTimeServiceDao(db:AppDatabase):OneTimeServiceDao=db.oneTimeServiceDao()
+    fun oneTimeServiceDao(db:AppDatabase): OneTimeServiceDao =db.oneTimeServiceDao()
 
 }

@@ -32,7 +32,7 @@ import androidx.navigation.NavHostController
 import com.example.emoease.R
 import com.example.emoease.navigation.MoodScreens
 import com.example.emoease.networkService.ApiResult
-import com.example.emoease.roomDb.EmotionModal
+import com.example.emoease.roomDb.modals.EmotionModal
 import com.example.emoease.screens.AnimatedLottie
 import com.example.emoease.screens.HorizontalSlideAnimation
 import com.example.emoease.screens.moodTrackingScreen.util.Constants

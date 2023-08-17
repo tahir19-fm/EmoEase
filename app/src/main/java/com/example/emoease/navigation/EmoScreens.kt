@@ -21,6 +21,7 @@ sealed class MoodScreens(val route: String) {
 
 sealed class AuthScreens(val route: String) {
     object LoginScreen : AuthScreens("login_screen")
+    object SignUpScreen : AuthScreens("sign_up_screen")
 }
 
 sealed class SplashScreens(val route: String) {

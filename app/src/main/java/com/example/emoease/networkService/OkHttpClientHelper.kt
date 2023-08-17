@@ -2,11 +2,18 @@ package com.example.emoease.networkService
 
 
 
+import android.preference.PreferenceManager
 import android.util.Log
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.example.emoease.BuildConfig
 import com.example.emoease.EmoEaseApp
+import com.example.emoease.roomDb.AuthSharedPreferences
+import com.example.emoease.screens.authScreen.data.AuthResponceDAO
+import com.google.android.gms.common.internal.service.Common
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient.Builder
@@ -17,10 +24,11 @@ import java.io.File
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
+
 class OkHttpClientHelper {
 
     companion object {
-        private const val ANDROID_EVENT = "android_event"
         const val CONNECT_TIMEOUT = "CONNECT_TIMEOUT"
         const val READ_TIMEOUT = "READ_TIMEOUT"
         const val WRITE_TIMEOUT = "WRITE_TIMEOUT"
@@ -114,6 +122,7 @@ class OkHttpClientHelper {
         }
     }
 
+
     private fun getChuckerInterceptor(): ChuckerInterceptor? {
         val context = EmoEaseApp.instance?.baseContext
         return context?.let {
@@ -128,10 +137,9 @@ class OkHttpClientHelper {
 
     private fun getHeaders(request: Request): Request {
         val versionCode = BuildConfig.VERSION_CODE.toString()
-        val authToken = "1234567890"
         val req = request.newBuilder()
             .header("APP-VERSION-CODE", versionCode)
-            .header("Authorization", authToken)
+            .header("Authorization", EmoEaseApp.authToken)
             .header("Content-Type", "application/json")
             .header("Accept", "application/json")
         return req.build()

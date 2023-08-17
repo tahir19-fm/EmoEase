@@ -1,4 +1,4 @@
-package com.example.emoease.roomDb
+package com.example.emoease.roomDb.modals
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

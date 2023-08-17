@@ -81,7 +81,7 @@ private val BlackAndWhiteColors = lightColors(
 )
 
 private val LightThemeColors5 = lightColors(
-    primary = primary,
+    primary = primary2,
     onPrimary = Color.White,
     secondary = secondary,
     onSecondary = Color.Black,

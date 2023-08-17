@@ -5,7 +5,11 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.location.LocationManager
+import com.example.emoease.roomDb.AuthSharedPreferences
 import dagger.hilt.android.HiltAndroidApp
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.lang.Appendable
 
@@ -15,6 +19,8 @@ class EmoEaseApp:Application() {
 
         @JvmStatic
         var instance: EmoEaseApp? = null
+        var unauthorisedAuthToken = "unauthorisedToken"
+        var authToken: String = unauthorisedAuthToken
 
     }
 
